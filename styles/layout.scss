@@ -2,5 +2,32 @@
 
 body,
 html {
-  margin: 0;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 0em;
+  margin: 0em;
+  background-color: white;
+  color: black;
+  height: 75px;
+  font-size: 18px;
+}
+
+.logo {
+  padding: 0.5em;
+  padding-left: 1em;
+  font-weight: bold;
+}
+
+.home {
+  padding: 0.5em;
+  padding-left: 1em;
 }
