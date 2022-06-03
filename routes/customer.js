@@ -1,5 +1,5 @@
 /*
- * All routes for Users are defined here
+ * All routes for Customers are defined here
  * Since this file is loaded in server.js into api/users,
  *   these routes are mounted onto /users
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
@@ -23,3 +23,11 @@ module.exports = (db) => {
   });
   return router;
 };
+
+// GET request to load menu
+// POST request to submit form with all added menu items and name/email/phone
+  // triggers notification to owner that the order has been placed
+// POST request to cancel form (either redirect or clear same page)
+
+
+
