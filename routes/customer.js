@@ -12,9 +12,8 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     db.query(`SELECT * FROM menus;`)
       .then(data => {
-        const users = data.rows;
-        console.log(users);
-        res.render('menu', {users: users});
+        const menus = data.rows;
+        res.render('menu', {menus: menus});
       })
       .catch(err => {
         res

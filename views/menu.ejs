@@ -3,6 +3,7 @@
 <head>
   <!-- bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -11,21 +12,36 @@
   <link rel="stylesheet" href="/styles/menu.css" type="text/css" />
 
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+
+  <!-- Custom scripts -->
+  <script type="text/javascript" src="/scripts/menus.js"></script>
   <script type="text/javascript" src="/scripts/app.js"></script>
+
+
   <title>Menu</title>
 </head>
 <body>
   <%- include('partials/_header') %>
   <div class="container">
+    <div class="sidebar">
+      <ol class="list">
+      </ol>
+    </div>
+
     <div class="d-flex flex-column">
-    <% for(let user of users) { %>
+    <% for(let menu of menus) { %>
       <div class="menu_item m-1">
         <div class="d-flex">
-          <img class="menu_item_photo" src="<%= user.photo_url %>" alt="">
+          <img class="menu_item_photo mr-2" src="<%= menu.photo_url %>" alt="">
           <div class="d-flex flex-column">
-            <div><%= user.name%></div>
-            <div><%= user.description%></div>
-            <div><%= user.price%></div>
+            <div><%= menu.name%></div>
+            <div><%= menu.description%></div>
+            <div>$<%= menu.price / 100 %></div>
+            <div class="d-flex flex-row align-items-center item_counter">
+              <div class="substract p-2">-</div>
+              <div class="count" id="<%= menu.name %>">0</div>
+              <div class="add p-2">+</div>
+            </div>
           </div>
         </div>
       </div>
