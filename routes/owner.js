@@ -10,10 +10,11 @@ const router = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    db.query(`SELECT order_id, menu_id, customers.phone_number, orders.customer_id, orders.order_placed_at, FROM items_ordered JOIN orders ON orders.id = order_id JOIN customers ON customers.id = orders.customer_id;`)
+    db.query(`SELECT order_id, menu_id, customers.phone_number AS phone, orders.customer_id AS customer, orders.order_placed_at AS order_time FROM items_ordered JOIN orders ON orders.id = order_id JOIN customers ON customers.id = orders.customer_id;`)
       .then(data => {
-        const users = data.rows;
-        res.json({ users });
+        console.log(data);
+        const owner = data.rows;
+        res.render('owner', { owner: owner[0] });
       })
       .catch(err => {
         res
