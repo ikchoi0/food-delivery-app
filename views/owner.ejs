@@ -18,21 +18,20 @@
 
 <body>
   <%- include('partials/_header') %>
-    <div>
-      <%= owner.order_id%>
-    </div>
-    <div>
-      <%= owner.menu_id%>
-    </div>
-    <div>
-      <%= owner.phone%>
-    </div>
-    <div>
-      <%= owner.customer%>
-    </div>
-    <div>
-      <%= owner.order_time%>
-    </div>
+    <section class="order_container">
+      <%= for (let order of orders) { %>
+        <div>
+          <%= order.order_id%>
+            <%= order.menu_id%>
+        </div>
+        <div>
+          <%= orders.phone%>
+            <%= orders.customer%>
+        </div>
+        <div>
+          <%= orders.order_time%>
+        </div>
+    </section>
 </body>
 
 </html>

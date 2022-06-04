@@ -12,9 +12,8 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     db.query(`SELECT order_id, menu_id, customers.phone_number AS phone, orders.customer_id AS customer, orders.order_placed_at AS order_time FROM items_ordered JOIN orders ON orders.id = order_id JOIN customers ON customers.id = orders.customer_id;`)
       .then(data => {
-        console.log(data);
-        const owner = data.rows;
-        res.render('owner', { owner: owner[0] });
+        const orders = data.rows;
+        res.render('owner', {orders: orders});
       })
       .catch(err => {
         res
