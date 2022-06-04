@@ -6,11 +6,11 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    db.query(`SELECT * FROM users;`)
+    db.query(`SELECT order_id, menu_id, customers.phone_number, orders.customer_id, orders.order_placed_at, FROM items_ordered JOIN orders ON orders.id = order_id JOIN customers ON customers.id = orders.customer_id;`)
       .then(data => {
         const users = data.rows;
         res.json({ users });
@@ -20,6 +20,7 @@ module.exports = (db) => {
           .status(500)
           .json({ error: err.message });
       });
+
   });
   return router;
 };
