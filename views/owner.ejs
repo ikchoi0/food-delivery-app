@@ -19,19 +19,30 @@
 <body>
   <%- include('partials/_header') %>
     <section class="order_container">
-      <%= for (let order of orders) { %>
+      <% for (let key of Object.keys(orders)) { %>
         <div>
-          <%= order.order_id%>
-            <%= order.menu_id%>
+          <%= key %>
         </div>
         <div>
-          <%= orders.phone%>
-            <%= orders.customer%>
+          <%= orders[key][0].item %>
+            <%= orders[key][0].count %>
         </div>
         <div>
-          <%= orders.order_time%>
-        </div>
-    </section>
+          <%= orders[key][0].phone %>
+          <%= orders[key][0].customer %>
+          <%= orders[key][0].order_time %>
+          </
+          <div>
+            <button type="submit">accept</button>
+            <button type="submit">decline</button>
+            <form>
+              <label>Estimated Time</label>
+              <textarea></textarea>
+              <button>submit</button>
+            </form>
+          </div>
+      <% } %>
+   </section>
 </body>
 
 </html>
