@@ -8,10 +8,10 @@ $(() => {
 // still working on the counters
   $(".item_counter .add").on("click", function(e) {
     const counter = $(this).parent().find(".count");
-    const foodInfo = $(this).parent().parent();
+    const foodInfo = $(this).parent().parent().parent();
     const id = foodInfo.find(".menu_item_id").text();
-    const name = foodInfo.find(".item_name").text();
-    const price = foodInfo.find(".item_price").text();
+    const name = foodInfo.find(".menu_item_name").text();
+    const price = foodInfo.find(".menu_item_price").text();
     let count = Number(counter.text()) + 1;
     const $cartList = $(".sidebar .cart_items");
     const cartItem = $(`.cart_item_id.${id}`);
@@ -36,9 +36,9 @@ $(() => {
 
   $(".item_counter .subtract").on("click", function(e) {
     const counter = $(this).parent().find(".count");
-    const foodInfo = $(this).parent().parent();
+    const foodInfo = $(this).parent().parent().parent();
     const id = foodInfo.find(".menu_item_id").text();
-    let price = foodInfo.find(".item_price").text();
+    let price = foodInfo.find(".menu_item_price").text();
     let count = Number(counter.text()) - 1;
     const cart_item = $(`.cart_item_id.${id}`);
     if (count > 0) {
@@ -58,10 +58,12 @@ $(() => {
 
   $(".place_order_form").on("submit", function(e) {
     e.preventDefault();
+    const userInfo = $(this).serializeArray();
     if(Object.keys(localStorage).length) {
-      const orderData = {
-        customer_id: CUSTOMER_ID,
-      };
+      const orderData = {};
+      for(let elem of userInfo) {
+        orderData[elem.name] = elem.value;
+      }
       for(let key of Object.keys(localStorage)){
         const value = localStorage.getItem(key);
         orderData[key] = value;

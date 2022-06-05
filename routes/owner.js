@@ -9,20 +9,34 @@ const express = require('express');
 const router = express.Router();
 
 module.exports = (db) => {
+
   router.get("/", (req, res) => {
-    db.query(`SELECT order_id, menu_id, customers.phone_number AS phone, orders.customer_id AS customer, orders.order_placed_at AS order_time FROM items_ordered JOIN orders ON orders.id = order_id JOIN customers ON customers.id = orders.customer_id;`)
-      .then(data => {
-        console.log(data);
-        const owner = data.rows;
-        res.render('owner', { owner: owner[0] });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
+    const array = [];
+
+    db.query(`
+          SELECT order_id, menus.name AS item, COUNT(menus.*), customers.id AS customer, customers.phone_number AS phone, orders.order_placed_at AS order_time
+          FROM items_ordered
+            JOIN orders ON orders.id = order_id
+            JOIN customers ON customers.id = orders.customer_id
+            JOIN menus ON menus.id = items_ordered.menu_id
+            GROUP BY menus.name, order_id, customers.id, orders.order_placed_at;
+            `
+    ).then(data => {
+      array.push(...data.rows);
+      const obj = {};
+      for (let element of array) {
+        obj[element.customer] ? obj[element.customer].push(element) : obj[element.customer] = [element];
+      }
+      res.render('owner', { orders: obj });
+    }).catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
 
   });
+
+ 
   return router;
 };
 

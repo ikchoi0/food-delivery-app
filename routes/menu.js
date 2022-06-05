@@ -21,28 +21,44 @@ module.exports = (db) => {
   });
   router.post("/", (req, res) => {
     const orderData = req.body;
-    const customer_id = orderData.customer_id;
-    delete orderData.customer_id;
-    for (let key of Object.keys(orderData)) {
-      db.query(
-        `
-          INSERT INTO orders (customer_id, order_placed_at)
-          VALUES ($1, NOW())
-          RETURNING id;
-        `, [customer_id]
-      )
-      .then((data) => {
+    //generate
+    // const customer_id = orderData.customer_id;
+    // delete orderData.customer_id;
+    const customerName = orderData.customer_name;
+    const customerEmail = orderData.customer_email;
+    const customerPhoneNumber = orderData.customer_phone_number;
+    ['customer_name', 'customer_email', 'customer_phone_number'].forEach(key => delete orderData[key]);
+    db.query(
+      `
+        INSERT INTO customers (name, email, phone_number)
+        VALUES ($1, $2, $3)
+        RETURNING id;
+      `, [customerName, customerEmail, customerPhoneNumber]
+    )
+    .then((data) => {
+      const customerId = Number(data.rows[0].id);
+      console.log(customerId);
+      for (let key of Object.keys(orderData)) {
         db.query(
           `
-            INSERT INTO items_ordered (order_id, menu_id)
-            VALUES ($1, $2)
-          `, [Number(data.rows[0].id), Number(key)]
+            INSERT INTO orders (customer_id, order_placed_at)
+            VALUES ($1, NOW())
+            RETURNING id;
+          `, [customerId]
         )
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    }
+        .then((data) => {
+          db.query(
+            `
+              INSERT INTO items_ordered (order_id, menu_id)
+              VALUES ($1, $2)
+            `, [Number(data.rows[0].id), Number(key)]
+          )
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      }
+    })
     res.redirect("/");
   });
 
