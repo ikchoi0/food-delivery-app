@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Home Page</title>
+
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/main.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+  <script type="text/javascript" src="/scripts/menus.js"></script>
+  <script type="text/javascript" src="/scripts/app.js"></script>
+</head>
+<body>
+  <%- include('partials/_header') %>
+
+  <form action="">
+    <div>
+      <label for="">Menu Name:</label>
+      <input type="text" name="create_menu_name">
+    </div>
+    <div>
+      <label for="description">Description: </label>
+      <textarea name="create_menu_description" cols="30" rows="10"></textarea>
+    </div>
+    <div>
+      <label for="">photo url: </label>
+      <textarea name="create_menu_photo_url" cols="30" rows="10"></textarea>
+    </div>
+    <div>
+      <label for="">price: </label>
+      <input type="text" name="create_menu_price">
+    </div>
+  </form>
+</body>
+</html>
