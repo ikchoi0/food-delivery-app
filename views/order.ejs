@@ -39,7 +39,10 @@
     </div>
 
     <div>
-      <span>Items Ordered: <%= orderDetails[0].name%></span>
+      <span>Items Ordered: <% for (let i=0; i<orderDetails.length; i++) { %>
+        <%= orderDetails[i].item_name %>
+        <% } %>
+      </span>
     </div>
 
     <div>
