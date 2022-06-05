@@ -1,4 +1,6 @@
 $(() => {
+  const CUSTOMER_ID = 1;
+
   $(".cart").on("click", function(e) {
     e.preventDefault();
   });
@@ -11,7 +13,6 @@ $(() => {
     const name = foodInfo.find(".item_name").text();
     const price = foodInfo.find(".item_price").text();
     let count = Number(counter.text()) + 1;
-    localStorage.setItem(name, [price, count]);
     const $cartList = $(".sidebar .cart_items");
     const cartItem = $(`.cart_item_id.${id}`);
     if (count === 1) {
@@ -28,6 +29,8 @@ $(() => {
       cartItem.find(".cart_item_count").text(count);
       cartItem.find(".cart_item_price").text(count * price);
     }
+    localStorage.setItem(id, count);
+    updateCartTotal(Number(price));
     counter.text(count);
   });
 
@@ -35,24 +38,49 @@ $(() => {
     const counter = $(this).parent().find(".count");
     const foodInfo = $(this).parent().parent();
     const id = foodInfo.find(".menu_item_id").text();
-    const name = foodInfo.find(".item_name").text();
-    const price = foodInfo.find(".item_price").text();
+    let price = foodInfo.find(".item_price").text();
     let count = Number(counter.text()) - 1;
-    localStorage.setItem(name, [price, count]);
     const cart_item = $(`.cart_item_id.${id}`);
-    if (count === 0) {
-      cart_item.remove();
-      //error!! items cannot be negative
-    } else {
+    if (count > 0) {
       cart_item.find(".cart_item_count").text(count);
       cart_item.find(".cart_item_price").text(count * price);
+    } else if (count === 0) {
+      cart_item.remove();
+    } else {
+      //error!! items cannot be negative
+      price = 0;
+      count = 0;
     }
+    updateCartTotal(-Number(price));
+    localStorage.setItem(id, count);
     counter.text(count);
   });
 
+  $(".place_order_form").on("submit", function(e) {
+    e.preventDefault();
+    if(Object.keys(localStorage).length) {
+      const orderData = {
+        customer_id: CUSTOMER_ID,
+      };
+      for(let key of Object.keys(localStorage)){
+        const value = localStorage.getItem(key);
+        orderData[key] = value;
+      }
+      localStorage.clear();
+      $.post("/api/menu", orderData)
+      .then(() => {
+        window.location.replace("/api/order");
+      });
+    } else {
+      //error
+    }
+
+  })
 });
 
 
-function updateCart (name) {
-
+function updateCartTotal (price) {
+  const cartTotal = $(".cart_total");
+  const newTotal = Number(cartTotal.text()) + price;
+  cartTotal.text(Math.round(newTotal));
 }
