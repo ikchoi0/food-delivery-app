@@ -1,5 +1,5 @@
 INSERT INTO menus (name, description, photo_url, price)
-VALUES ('Chipotle Lobster', 'Japanese Milk Bread, Folded Eggs, Lobster, Bacon, Corn, Lettuce, Chipootle sauce', 'https://media.blogto.com/articles/20201211-EggClub-9.jpg?w=720&cmd=resize_then_crop&height=480&quality=70',1300),
+VALUES ('Chipotle Lobster', 'Japanese Milk Bread, Folded Eggs, Lobster, Bacon, Corn, Lettuce, Chipotle sauce', 'https://media.blogto.com/articles/20201211-EggClub-9.jpg?w=720&cmd=resize_then_crop&height=480&quality=70',1300),
 ('Creamy Corn Salsa', 'Japanese Milk Bread, Folded Eggs, Corn Salsa, Creamy Chili Sauce', 'https://lh3.googleusercontent.com/j2rMXWFVo0sQgm2u5OrT0JTu6pP3EMOibTD2ZlUdLcU1zg9p9jHppphOadvMPOp2cnSc86fG31KiTrh02LW5PbTS2fQ', 1100),
 ('Karubi Don	Angus', 'boneless beef short rib, onion. Grilled and broiled meat on top of Japanese short grain rice (fresh meat fresh grill).',	'https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photos/4e1121d6-b571-4958-b74b-759f9e7b9d30-retina-large-jpeg',	2459),
 ('Karaage', 'Japanese popcorn chicken', 'https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photos/857f6c57-235f-4045-bc6f-723fb945b557-retina-large-jpeg', 875),
