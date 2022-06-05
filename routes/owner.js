@@ -41,7 +41,7 @@ module.exports = (db) => {
 
     db.query(
       `
-      DELETE orders WHERE (order_completed_at)
+      DELETE orders WHERE order_started_at IS NULL;
       `
     ).then(() => {
       res.redirect("/")
