@@ -58,10 +58,12 @@ $(() => {
 
   $(".place_order_form").on("submit", function(e) {
     e.preventDefault();
+    const userInfo = $(this).serializeArray();
     if(Object.keys(localStorage).length) {
-      const orderData = {
-        customer_id: CUSTOMER_ID,
-      };
+      const orderData = {};
+      for(let elem of userInfo) {
+        orderData[elem.name] = elem.value;
+      }
       for(let key of Object.keys(localStorage)){
         const value = localStorage.getItem(key);
         orderData[key] = value;
