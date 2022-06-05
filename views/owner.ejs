@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
   <link rel="stylesheet" href="/styles/main.css" type="text/css" />
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/owners.css" type="text/css" />
 
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/scripts/app.js"></script>
@@ -18,21 +19,35 @@
 
 <body>
   <%- include('partials/_header') %>
-    <div>
-      <%= owner.order_id%>
-    </div>
-    <div>
-      <%= owner.menu_id%>
-    </div>
-    <div>
-      <%= owner.phone%>
-    </div>
-    <div>
-      <%= owner.customer%>
-    </div>
-    <div>
-      <%= owner.order_time%>
-    </div>
+    <section class="view_orders">
+      <% for (let key of Object.keys(orders)) { %>
+        <div>
+          <%= key %>
+        </div>
+        <div class="order">
+          <% for (let elem of orders[key]) { %>
+          <div>
+            <%= elem.item %>
+              <%= elem.count %>
+          </div>
+          <div>
+            <%= elem.phone %>
+            <%= elem.customer %>
+            <%= elem.order_time %>
+          </div>
+            <div>
+              <button type="submit">accept</button>
+              <button type="submit">decline</button>
+              <form>
+                <label>Estimated Time</label>
+                <textarea></textarea>
+                <button>submit</button>
+              </form>
+            </div>
+            <% } %>
+        </div>
+      <% } %>
+   </section>
 </body>
 
 </html>
