@@ -19,7 +19,7 @@
 <body>
   <%- include('partials/_header') %>
     <section class="order_container">
-      <%= for (let order of orders) { %>
+      <% for (let order of orders) { %>
         <div>
           <%= order.order_id%>
             <%= order.menu_id%>
@@ -31,6 +31,7 @@
         <div>
           <%= orders.order_time%>
         </div>
+        <% } %>
     </section>
 </body>
 
