@@ -45,6 +45,18 @@ module.exports = (db) => {
     }
     res.redirect("/");
   });
+
+  router.get("/menu/order", (req, res) => {
+    db.query(
+     `SELECT order_id, menus.name, order_placed_at
+     FROM orders JOIN items_ordered ON orders.id = order_id
+     JOIN menus ON menu_id = menus.id
+     WHERE customer_id = (SELECT customer_id FROM orders ORDER BY order_placed_at DESC LIMIT 1);`)
+    .then((data) => {
+      console.log(data.rows);
+      res.send(data.rows);
+    })
+  });
   return router;
 };
 

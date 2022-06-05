@@ -69,7 +69,7 @@ $(() => {
       localStorage.clear();
       $.post("/api/menu", orderData)
       .then(() => {
-        window.location.replace("/api/order");
+        window.location.replace("/api/menu/order");
       });
     } else {
       //error
