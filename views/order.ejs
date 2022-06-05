@@ -19,7 +19,19 @@
 <body>
   <%- include('partials/_header') %>
     <div>
-      <span>Order ID: <%= orderDetails[0].order_id %></span>
+      <span>Order Number: <%= orderDetails[0].order_id %></span>
+    </div>
+
+    <div>
+      <span>Name: <%= orderDetails[0].customer_name%></span>
+    </div>
+
+    <div>
+      <span>Phone Number: <%= orderDetails[0].phone_number%></span>
+    </div>
+
+    <div>
+      <span>Email: <%= orderDetails[0].email%></span>
     </div>
 
     <div>

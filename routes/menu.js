@@ -64,9 +64,10 @@ module.exports = (db) => {
 
   router.get("/order", (req, res) => {
     db.query(
-     `SELECT order_id, menus.name, order_placed_at
+     `SELECT order_id, menus.name, order_placed_at, customers.name as customer_name, customers.phone_number as phone_number, customers.email as email
      FROM orders JOIN items_ordered ON orders.id = order_id
      JOIN menus ON menu_id = menus.id
+     JOIN customers on customer_id = customers.id
      WHERE customer_id = (SELECT customer_id FROM orders ORDER BY order_placed_at DESC LIMIT 1);`)
     .then((data) => {
       const orderDetails = data.rows;
