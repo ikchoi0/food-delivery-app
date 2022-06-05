@@ -9,6 +9,7 @@ const express = require("express");
 const router = express.Router();
 
 module.exports = (db) => {
+
   router.get("/", (req, res) => {
     db.query(`SELECT * FROM menus;`)
       .then((data) => {
@@ -19,6 +20,7 @@ module.exports = (db) => {
         res.status(500).json({ error: err.message });
       });
   });
+  
   router.post("/", (req, res) => {
     const orderData = req.body;
     //generate
@@ -61,6 +63,28 @@ module.exports = (db) => {
     })
     res.redirect("/");
   });
+
+  router.get("/order", (req, res) => {
+    // db.query(
+    //  `SELECT orders.id, menus.name as name, order_placed_at, customers.name as customer_name,
+    //  customers.phone_number as phone_number, customers.email as email
+    //  FROM orders JOIN items_ordered ON orders.id = order_id
+    //  JOIN menus ON menu_id = menus.id
+    //  JOIN customers on customer_id = customers.id
+    //  WHERE customer_id = (SELECT customer_id FROM orders ORDER BY order_placed_at DESC LIMIT 1)
+    // `)
+    db.query(`
+    SELECT id, order_placed_at
+    FROM orders
+    WHERE customer_id = (SELECT customer_id FROM orders ORDER BY order_placed_at DESC LIMIT 1);`)
+    .then((data) => {
+      // const orderDetails = data.rows;
+      // console.log(orderDetails);
+      // res.render("order", { orderDetails: orderDetails })
+      res.send(data.rows);
+    })
+  });
+
   return router;
 };
 
