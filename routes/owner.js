@@ -19,7 +19,8 @@ module.exports = (db) => {
             JOIN orders ON orders.id = order_id
             JOIN customers ON customers.id = orders.customer_id
             JOIN menus ON menus.id = items_ordered.menu_id
-            GROUP BY menus.name, order_id, customers.id, orders.order_placed_at;
+            GROUP BY menus.name, order_id,
+            customers.id, orders.order_placed_at;
             `
     ).then(data => {
       array.push(...data.rows);
@@ -27,16 +28,27 @@ module.exports = (db) => {
       for (let element of array) {
         obj[element.customer] ? obj[element.customer].push(element) : obj[element.customer] = [element];
       }
+      console.log(obj);
       res.render('owner', { orders: obj });
     }).catch(err => {
       res
         .status(500)
         .json({ error: err.message });
     });
-
   });
 
- 
+  router.post("/decline", (req, res) => {
+
+    db.query(
+      `
+      DELETE orders WHERE (order_completed_at)
+      `
+    ).then(() => {
+      res.redirect("/")
+    })
+  })
+
+
   return router;
 };
 
