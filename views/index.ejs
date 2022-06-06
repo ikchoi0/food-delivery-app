@@ -20,8 +20,14 @@
 <body>
   <%- include('partials/_header') %>
   <div class="links">
-  <a href="/api/menu">Customer</a>
-  <a href="/api/owner">Owner</a>
+    <div class="main_text customer">Customer</div>
+    <a href="/api/menu">
+      <img class="main_photo customer" src="https://images.unsplash.com/photo-1619469323443-ba4de12d847a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt="Customer">
+    </a>
+    <a href="/api/owner">
+      <div class="main_text restaurant">Restaurant</div>
+      <img class="main_photo owner" src="https://images.unsplash.com/photo-1595257841889-eca2678454e2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80" alt="Owner">
+    </a>
   </div>
 </body>
 </html>

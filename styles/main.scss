@@ -1,6 +1,7 @@
 body {
   display: flex;
   min-height: 100vh;
+  min-width: 1250px;
   background: rgb(163, 208, 219);
   background: linear-gradient(
     227deg,
@@ -14,9 +15,35 @@ body {
 }
 
 .links {
+  position: relative  ;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   color: black;
-  padding-top: 5em;
+  width: 100%;
+  a {
+    width: 50%;
+    height: 100%;
+    .main_photo {
+      width: 100%;
+      min-width: auto;
+    }
+  }
+}
+.main_text {
+  color:rgb(181, 181, 0);
+  font-size: 2em;
+  font-weight: 600;
+}
+
+.main_text.customer{
+  position: absolute;
+  top: 50%;
+  left: 25%;
+
+}
+.main_text.restaurant{
+  position: absolute;
+  top: 50%;
+  right: 25%
 }
