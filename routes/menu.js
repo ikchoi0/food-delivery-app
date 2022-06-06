@@ -9,7 +9,6 @@ const express = require("express");
 const router = express.Router();
 
 module.exports = (db) => {
-
   router.get("/", (req, res) => {
     db.query(`SELECT * FROM menus;`)
       .then((data) => {
@@ -23,49 +22,36 @@ module.exports = (db) => {
 
   router.post("/", (req, res) => {
     const orderData = req.body;
-    //generate
-    // const customer_id = orderData.customer_id;
-    // delete orderData.customer_id;
     const customerName = orderData.customer_name;
     const customerEmail = orderData.customer_email;
     const customerPhoneNumber = orderData.customer_phone_number;
-    ['customer_name', 'customer_email', 'customer_phone_number'].forEach(key => delete orderData[key]);
-    db.query(
-      `
-        INSERT INTO customers (name, email, phone_number)
-        VALUES ($1, $2, $3)
-        RETURNING id;
-      `, [customerName, customerEmail, customerPhoneNumber]
-    )
-    .then((data) => {
-      const customerId = Number(data.rows[0].id);
-      console.log(customerId);
-      for (let key of Object.keys(orderData)) {
+    ["customer_name", "customer_email", "customer_phone_number"].forEach(
+      (key) => delete orderData[key]
+    );
+    db.query(`SELECT id FROM customers WHERE email = $1;`, [
+      customerEmail,
+    ]).then((data) => {
+      if (data.rows.length) {
+        addOrderHelper(orderData, data, db);
+      } else {
         db.query(
           `
-            INSERT INTO orders (customer_id, order_placed_at)
-            VALUES ($1, NOW())
+            INSERT INTO customers (name, email, phone_number)
+            VALUES ($1, $2, $3)
             RETURNING id;
-          `, [customerId]
-        )
-        .then((data) => {
-          db.query(
-            `
-              INSERT INTO items_ordered (order_id, menu_id)
-              VALUES ($1, $2)
-            `, [Number(data.rows[0].id), Number(key)]
-          )
-        })
-        .catch(error => {
-          console.log(error);
+          `,
+          [customerName, customerEmail, customerPhoneNumber]
+        ).then((data) => {
+          addOrderHelper(orderData, data, db);
         });
       }
-    })
+    });
     res.redirect("/");
   });
 
   router.get("/order", (req, res) => {
-    db.query(`
+    db.query(
+      `
     (SELECT menu_id, menus.name as item_name, orders.id, order_placed_at, order_started_at, order_completed_at,
       customers.name as customer_name, customers.phone_number as phone_number, customers.email as email
       FROM items_ordered
@@ -73,13 +59,13 @@ module.exports = (db) => {
       JOIN customers ON customer_id = customers.id
       JOIN menus ON menu_id = menus.id
       WHERE order_id in (SELECT id FROM orders WHERE customer_id = (SELECT customer_id FROM orders ORDER BY order_placed_at DESC LIMIT 1))
-    )`)
-    .then((data) => {
+    )`
+    ).then((data) => {
       const orderDetails = data.rows;
       console.log(orderDetails);
-      res.render("order", { orderDetails: orderDetails })
+      res.render("order", { orderDetails: orderDetails });
       // res.send(data.rows);
-    })
+    });
   });
 
   return router;
@@ -89,3 +75,30 @@ module.exports = (db) => {
 // POST request to submit form with all added menu items and name/email/phone
 // triggers notification to owner that the order has been placed
 // POST request to cancel form (either redirect or clear same page)
+
+function addOrderHelper(orderData, data, db) {
+  const customerId = Number(data.rows[0].id);
+  console.log(customerId);
+  db.query(
+    `
+      INSERT INTO orders (customer_id, order_placed_at)
+      VALUES ($1, NOW())
+      RETURNING id;
+    `,
+    [customerId]
+  )
+    .then((data) => {
+      for (let key of Object.keys(orderData)) {
+        db.query(
+          `
+            INSERT INTO items_ordered (order_id, menu_id)
+            VALUES ($1, $2)
+          `,
+          [Number(data.rows[0].id), Number(key)]
+        );
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
