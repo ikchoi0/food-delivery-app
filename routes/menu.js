@@ -46,7 +46,10 @@ module.exports = (db) => {
         });
       }
     })
-    res.send({message: "success"});
+    // TO FIX: redirect after data is added in the for loop
+    setTimeout(() => {
+      res.send({message: "success"});
+    }, 1000);
 
   });
 
