@@ -46,9 +46,9 @@
   <div id="Customer" class="tabcontent default">
     <div class="left-container">
       <div class="login-title">Customer Login</div>
-      <form class="login-form" method="POST" action="/login">
-        <input class="email" type="email" placeholder="email">
-        <input class="password" type="password" placeholder="password">
+      <form class="login-form" method="POST" action="/auth/login">
+        <input value="owner@owner.com" name="email" class="email" type="email" placeholder="email">
+        <input name="password" class="password" type="password" placeholder="password">
         <button class="submit" type="submit">Login</button>
       </form>
 

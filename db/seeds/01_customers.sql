@@ -1,6 +1,3 @@
-INSERT INTO customers (name, email, phone_number)
-VALUES ('Tom', 'tom88@gmail.com', '416-224-8806'),
-('Emma', 'emem@gmail.com', '437-217-2607'),
-('Nina', 'ninja@yahoo.com', '416-445-0808'),
-('Chris', 'chrishan@naver.com', '905-334-7865'),
-('Noze', 'nojin@google.com', '416-223-7649');
+INSERT INTO customers (name, email, phone_number, password)
+VALUES ('owner', 'owner@owner.com', '111-222-3333', '$2b$10$Rk1698ZklIz.udiVSN8xROyNixWy5syDuwQdXQsiyihptXAVtClwa'),
+('Emma', 'emem@gmail.com', '437-217-2607', 'udiVSN8xROyNixWy5syDuwQdXQsiyihptXAVtClwa');

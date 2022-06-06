@@ -5,7 +5,7 @@ require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
-const session = require("express-session");
+const cookieSession = require("cookie-session");
 
 const app = express();
 const morgan = require("morgan");
@@ -36,9 +36,10 @@ app.use(
 );
 
 app.use(express.static("public"));
-app.use(session({
-  secret:'Who will find it out'
-  ,name:'userSessionId'
+app.use(cookieSession({
+  name:'session',
+  keys: ['who will find it out'],
+  maxAge: 60*60*1000
 }));
 
 // Separated Routes for each Resource
