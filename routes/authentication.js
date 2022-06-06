@@ -9,7 +9,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const {handleAlreadyLoggedIn} = require("../lib/auth-helper");
+const {handleAlreadyLoggedIn, authenticateUser} = require("../lib/auth-helper");
 module.exports = (db) => {
   router.post("/login", handleAlreadyLoggedIn, (req, res) => {
     const userInfo = req.body;
@@ -41,7 +41,7 @@ module.exports = (db) => {
     );
   });
   router.get("/register", handleAlreadyLoggedIn, (req, res) => {
-    res.render("register");
+    res.render("register", {user: req.session});
   });
   router.post("/register", handleAlreadyLoggedIn, (req, res) => {
     const userInfo = req.body;
@@ -77,6 +77,10 @@ module.exports = (db) => {
         });
       }
     );
+  });
+  router.post("/logout", authenticateUser, (req, res) => {
+    req.session = null;
+    res.send({"message": "ok"});
   });
   return router;
 };

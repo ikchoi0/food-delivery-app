@@ -62,7 +62,7 @@ app.use("/api/owner", ownerRoutes(db));
 // Separate them into separate routes files (see above).
 
 app.get("/", handleAlreadyLoggedIn, (req, res) => {
-  res.render("index");
+  res.render("index", { user: req.session });
 });
 
 // app.get("/register", (req, res) => {
