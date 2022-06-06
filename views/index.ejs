@@ -25,6 +25,9 @@
   <!-- scripts -->
   <script type="text/javascript" src="/scripts/app.js"></script>
 
+   <!-- Add Icons -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 <body>
   <%- include('partials/_header') %>
@@ -32,7 +35,7 @@
 <main class="main-container">
   <div class="login-header">
   <!-- <div class="left-container"> -->
-  <span> I'm a...</span>
+  <span class="i-am"> I'm a...</span>
   <!-- Tab links -->
   <span class="tab">
     <button class="tablinks" onclick="openLogin(event, 'Customer')">Customer</button>
@@ -48,9 +51,15 @@
         <input class="password" type="password" placeholder="password">
         <button class="submit" type="submit">Login</button>
       </form>
+
+      <div>
+        <a href="/register">Register</a> for an account
+      </div>
     </div>
     <div class="right-container">
-      <img class="image" src="https://images.unsplash.com/photo-1619469323443-ba4de12d847a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80">
+      <i class="fa-solid fa-bacon icon3"></i>
+      <i class="fa-solid fa-burger icon1"></i>
+      <i class="fa-solid fa-bowl-food icon2"></i>
     </div>
   </div>
     <!-- Restaurant login -->
@@ -64,19 +73,12 @@
       </form>
     </div>
     <div class="right-container">
-      <img src="https://images.unsplash.com/photo-1595257841889-eca2678454e2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80">
+      <i class="fa-solid fa-bacon icon3"></i>
+      <i class="fa-solid fa-burger icon1"></i>
+      <i class="fa-solid fa-bowl-food icon2"></i>
     </div>
       </div>
-  <!-- </div> -->
 
-
-    <!-- <div id="Customer" class="tabcontent">
-      <img src="https://images.unsplash.com/photo-1619469323443-ba4de12d847a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80">
-    </div> -->
-
-    <!-- <div id="Restaurant" class="tabcontent">
-      <img src="https://images.unsplash.com/photo-1595257841889-eca2678454e2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80">
-    </div> -->
 
 </main>
 </body>

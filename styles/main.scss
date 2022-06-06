@@ -3,26 +3,9 @@ body {
   min-height: 100vh;
   min-width: 1250px;
   font-family: "Lato";
+  height: 100%;
+  background: linear-gradient(90deg, white 50%, cornflowerblue 50%);
 }
-
-
-// .main_text {
-//   color:rgb(181, 181, 0);
-//   font-size: 2em;
-//   font-weight: 600;
-// }
-
-// .main_text.customer{
-//   position: absolute;
-//   top: 50%;
-//   left: 25%;
-
-// }
-// .main_text.restaurant{
-//   position: absolute;
-//   top: 50%;
-//   right: 25%
-// }
 
 .main-container {
   flex-direction: row;
@@ -30,7 +13,7 @@ body {
 
 .login-header {
  display: flex;
- flex-direction: row;
+ flex-direction: column;
  padding: 1em;
  justify-content: space-evenly;
  font-size: 2em;
@@ -49,6 +32,9 @@ body {
   float: right;
 }
 
+.i-am {
+  padding: 0.2em;
+}
 
 .login-form {
   width: 100%;
@@ -58,9 +44,23 @@ body {
   padding: 5em 10em 10em 10em;
 }
 
+.register-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: 1em;
+  padding: 5em 10em 10em 10em;
+}
+
 .login-title {
   font-size: 2em;
-  padding-top: 5em;
+  padding-top: 2em;
+  padding-bottom: none;
+}
+
+.register-title {
+  font-size: 2em;
+  padding-top: 4em;
   padding-bottom: none;
 }
 
@@ -91,12 +91,42 @@ input:focus{
   color: green;
 }
 
+.icon1 {
+  color: white;
+  font-size: 5em;
+  padding: 1.5em;
+  padding-top: 2em;
+  position: relative;
+}
+
+.icon2 {
+  color: white;
+  font-size: 5em;
+  padding: 1.5em;
+  float: right;
+  position: relative;
+}
+
+.icon3 {
+  color: white;
+  font-size: 5em;
+  padding: 1.5em;
+  padding-top: 0em;
+  float: right;
+  position: relative;
+}
+
+.register {
+  margin-top: 10%;
+}
+
 /* Style the tab */
 .tab {
   overflow: hidden;
   border: none;
   background-color: none;
   margin-right: 50%;
+  font-size: 1em;
 }
 
 /* Style the buttons that are used to open the tab content */
@@ -113,6 +143,7 @@ input:focus{
 /* Change background color of buttons on hover */
 .tab button:hover {
   color: cornflowerblue;
+  border-bottom: 2px solid;
 }
 
 /* Create an active/current tablink class */
