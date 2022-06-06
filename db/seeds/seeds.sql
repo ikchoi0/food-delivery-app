@@ -1,18 +1,11 @@
-INSERT INTO customers (name, email, phone_number)
-VALUES ('Tom', 'tom88@gmail.com', '416-224-8806'),
-('Emma', 'emem@gmail.com', '437-217-2607'),
-('Nina', 'ninja@yahoo.com', '416-445-0808'),
-('Chris', 'chrishan@naver.com', '905-334-7865'),
-('Noze', 'nojin@google.com', '416-223-7649');
+INSERT INTO customers (name, email, phone_number, password)
+VALUES ('owner', 'owner@owner.com', '111-222-3333', '$2b$10$Rk1698ZklIz.udiVSN8xROyNixWy5syDuwQdXQsiyihptXAVtClwa'),
+('Emma', 'emem@gmail.com', '437-217-2607', 'udiVSN8xROyNixWy5syDuwQdXQsiyihptXAVtClwa'),
+('customer', 'customer@customer.com', '437-217-1111', '$2b$10$Rk1698ZklIz.udiVSN8xROyNixWy5syDuwQdXQsiyihptXAVtClwa');
+
 
 INSERT INTO orders (customer_id, order_placed_at, order_started_at)
-VALUES (1, '2022-05-21 12:32:45', '2022-05-21 12:33:11'),
-(2, '2022-05-28 17:12:31', '2022-05-28 17:14:27'),
-(2, '2022-05-28 17:12:31', '2022-05-28 17:13:27'),
-(3, '2022-05-28 14:23:40', '2022-05-28 14:24:22'),
-(4, '2022-06-01 18:34:21', '2022-06-01 18:35:02'),
-(5, '2022-06-03 20:43:22', '2022-06-03 20:44:22');
-
+VALUES (1, '2022-05-21 12:32:45', '2022-05-21 12:33:11'),(2, '2022-05-21 12:32:45', '2022-05-21 12:33:11');
 
 INSERT INTO menus (name, description, photo_url, price)
 VALUES ('Chipotle Lobster', 'Japanese Milk Bread, Folded Eggs, Lobster, Bacon, Corn, Lettuce, Chipootle sauce', 'https://media.blogto.com/articles/20201211-EggClub-9.jpg?w=720&cmd=resize_then_crop&height=480&quality=70',1300),
@@ -27,9 +20,11 @@ VALUES ('Chipotle Lobster', 'Japanese Milk Bread, Folded Eggs, Lobster, Bacon, C
 ('yakiniku don', 'grill marinated boneless Angus beef short rib, onion.', 'https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photos/630c6b3f-ebc8-4d99-9118-fa87e9f5f83b-retina-large-jpeg', 2259);
 
 INSERT INTO items_ordered (order_id, menu_id)
-VALUES (1, 2),
+VALUES
 (2, 1),
-(3, 6),
-(4, 5),
-(5, 8);
+(2, 6),
+(2, 5),
+(2, 8);
+
+
 

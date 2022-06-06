@@ -18,6 +18,12 @@
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
 
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+
     <!-- Custom scripts -->
     <script type="text/javascript" src="/scripts/menus.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
@@ -25,21 +31,26 @@
     <title>Menu</title>
   </head>
   <body>
-    <%- include('partials/_header') %>
-    <div class="container">
+    <%- include('partials/_header', { user: user}) %>
+    <div class="menu-container">
       <div class="sidebar">
         <form class="place_order_form">
-          <label for="customer_name">name: </label>
-          <input type="text" name="customer_name" />
-          <label for="customer_email">email: </label>
-          <input type="email" name="customer_email" />
-          <label for="customer_phone_number">phone number: </label>
-          <input type="text" name="customer_phone_number" />
-          <button type="submit">Place Order</button>
+        <div>
+          <label for="customer_name">Name: </label>
+          <input type="text" class="password" name="customer_name" />
+        </div>
+        <div>
+          <label for="customer_email">Email: </label>
+          <input type="email" class="password" name="customer_email" />
+        </div>
+        <div>
+          <label for="customer_phone_number">Phone number: </label>
+          <input type="text" name="customer_phone_number" class="password"/>
+          <button type="submit" class="submit">Place Order</button>
+        </div>
         </form>
         <ul class="cart_items"></ul>
-        <div>Total $</div>
-        <div class="cart_total">0</div>
+        <span>Total $<span class="cart_total">0</span></span>
       </div>
       <div class="d-flex flex-column">
         <% for(let menu of menus) { %>
@@ -54,7 +65,8 @@
             <div class="menu_item_name"><%= menu.name%></div>
             <div class="menu_item_description"><%= menu.description%></div>
             <div class="menu_item_footer d-flex">
-              <div class="menu_item_price"><%= menu.price / 100 %></div>
+              <div class="pt-2">$</div>
+              <div class="menu_item_price pt-2"><%= menu.price / 100 %></div>
               <div class="d-flex flex-row align-items-center item_counter">
                 <div class="subtract p-2">-</div>
                 <div class="count">0</div>

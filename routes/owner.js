@@ -7,10 +7,11 @@
 
 const express = require('express');
 const router = express.Router();
+const { authenticateUser, authenticateOwner } = require("../lib/auth-helper");
 
 module.exports = (db) => {
-  router.get("/menu/create", (req, res) => {
-    res.render("add_menu");
+  router.get("/menu/create", authenticateUser, authenticateOwner, (req, res) => {
+    res.render("add_menu", {"user": req.session});
   });
   router.post("/menu", (req, res) => {
     const {
@@ -31,7 +32,7 @@ module.exports = (db) => {
     });
   });
 
-  router.get("/", (req, res) => {
+  router.get("/", authenticateUser, authenticateOwner, (req, res) => {
     const orders = [];
 
     db.query(`
@@ -44,7 +45,7 @@ module.exports = (db) => {
          `
     ).then(data => {
       orders.push(...data.rows);
-      res.render('owner', { orders: orders });
+      res.render('owner', { orders: orders, user: req.session });
     }).catch(err => {
       res
         .status(500)
@@ -52,14 +53,14 @@ module.exports = (db) => {
     });
   });
 
-  router.post("/decline", (req, res) => {
+  router.post("/decline", authenticateUser, authenticateOwner, (req, res) => {
     const { orderId } = req.body;
     db.query(`DELETE FROM orders WHERE id = $1;`, [orderId]).then(data => {
       res.send(data.rows[0]);
     })
   })
 
-  router.post("/confirm", (req, res) => {
+  router.post("/confirm",  authenticateUser, authenticateOwner, (req, res) => {
     const { orderId, confirm_time } = req.body;
     db.query(`UPDATE orders
     SET order_started_at = NOW()
@@ -68,7 +69,7 @@ module.exports = (db) => {
       res.send({data: data.rows[0], confirm_time});
     })
 
-    router.post("/confirm/completed", (req, res) => {
+    router.post("/confirm/completed", authenticateUser, authenticateOwner, (req, res) => {
       const { completedId } = req.body;
       db.query(`UPDATE orders
        SET order_completed_at = NOW()
@@ -79,9 +80,6 @@ module.exports = (db) => {
     })
 
   })
-
-
-
   return router;
 };
 

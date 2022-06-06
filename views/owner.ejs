@@ -19,7 +19,7 @@
 </head>
 
 <body>
-  <%- include('partials/_header') %>
+  <%- include('partials/_header', { user: user }) %>
     <section class="view_orders">
       <% for (let order of orders) { %>
         <div id="each_order" class="order-<%= order.order_id %>">

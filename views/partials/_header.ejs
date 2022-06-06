@@ -1,3 +1,8 @@
 <header class="header">
     <a class="logo" href="/">Restaurant Name</a>
+    <% if (Object.keys(user).length) { %>
+    <a class="logout_button" href="">Logout</a>
+    <% } %>
 </header>
+
+<script type="text/javascript" src="/scripts/logout.js"></script>

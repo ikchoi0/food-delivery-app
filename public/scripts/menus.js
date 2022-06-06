@@ -19,9 +19,9 @@ $(() => {
       const nameTag =
       `
         <li class="cart_item_id ${id}">
-          <div>name: </div><div class="cart_item_name">${name}</div>
-          <div>x</div><div class="cart_item_count">${count}</div>
-          <div>$</div><div class="cart_item_price">${price}</div>
+          <span>Name: </span><span class="cart_item_name">${name}</span>
+          <span>x </span><span class="cart_item_count">${count}</span>
+          <span>- $</span><span class="cart_item_price">${price}</span>
         </li>
       `;
       $(nameTag).appendTo($cartList);
