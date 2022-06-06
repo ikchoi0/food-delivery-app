@@ -11,25 +11,19 @@ const router = express.Router();
 module.exports = (db) => {
 
   router.get("/", (req, res) => {
-    const array = [];
+    const orders = [];
 
     db.query(`
-          SELECT order_id, menus.name AS item, COUNT(menus.*), customers.id AS customer, customers.phone_number AS phone, orders.order_placed_at AS order_time
-          FROM items_ordered
-            JOIN orders ON orders.id = order_id
-            JOIN customers ON customers.id = orders.customer_id
-            JOIN menus ON menus.id = items_ordered.menu_id
-            GROUP BY menus.name, order_id,
-            customers.id, orders.order_placed_at;
-            `
+      SELECT orders.id AS order_id, ARRAY_AGG(menus.name) AS menu_name, COUNT(menus.*) AS total_items
+      FROM orders
+      JOIN items_ordered ON orders.id = items_ordered.order_id
+      JOIN menus ON menus.id = items_ordered.menu_id
+      JOIN customers ON customers.id = orders.customer_id
+      GROUP BY orders.id;
+         `
     ).then(data => {
-      array.push(...data.rows);
-      const obj = {};
-      for (let element of array) {
-        obj[element.customer] ? obj[element.customer].push(element) : obj[element.customer] = [element];
-      }
-      console.log(obj);
-      res.render('owner', { orders: obj });
+      orders.push(...data.rows);
+      res.render('owner', { orders: orders });
     }).catch(err => {
       res
         .status(500)
@@ -38,14 +32,16 @@ module.exports = (db) => {
   });
 
   router.post("/decline", (req, res) => {
-
-    db.query(
-      `
-      DELETE orders WHERE order_started_at IS NULL;
-      `
-    ).then(() => {
-      res.redirect("/")
-    })
+    const { ownerId } = req.body;
+    console.log('asdasdasd', ownerId);
+    res.redirect("/");
+    // db.query(
+    //   `
+    //   DELETE orders WHERE order_started_at IS NULL;
+    //   `
+    // ).then(() => {
+    //   res.redirect("/")
+    // })
   })
 
 
