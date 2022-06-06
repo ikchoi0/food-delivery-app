@@ -79,9 +79,8 @@ $(() => {
   })
 });
 
-
 function updateCartTotal (price) {
   const cartTotal = $(".cart_total");
   const newTotal = Number(cartTotal.text()) + price;
-  cartTotal.text((newTotal).toFixed(2));
+  cartTotal.text(newTotal.toFixed(2));
 }
