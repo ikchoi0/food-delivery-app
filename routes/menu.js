@@ -71,6 +71,26 @@ module.exports = (db) => {
     });
   });
 
+  router.post("/delete", (req, res) => {
+    db.query(
+    `
+    SELECT orders.*, items_ordered.*
+    FROM items_ordered
+    JOIN orders ON orders.id = order_id
+    JOIN customers ON customer_id = customers.id
+    JOIN menus ON menu_id = menus.id
+    WHERE order_id in (SELECT id FROM orders WHERE customer_id = (SELECT customer_id FROM orders ORDER BY order_placed_at DESC LIMIT 1));
+    `)
+    .then((data) => {
+      const cancelledOrder = data.rows;
+      delete cancelledOrder;
+      res.redirect('/api/menu');
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+  });
+
   return router;
 };
 
