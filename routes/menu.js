@@ -45,26 +45,52 @@ module.exports = (db) => {
           addOrderHelper(orderData, data, db);
         });
       }
-    });
-    res.redirect("/");
+    })
+    // TO FIX: redirect after data is added in the for loop
+    setTimeout(() => {
+      res.send({message: "success"});
+    }, 1000);
+
   });
 
   router.get("/order", (req, res) => {
     db.query(
       `
-    (SELECT menu_id, menus.name as item_name, orders.id, order_placed_at, order_started_at, order_completed_at,
-      customers.name as customer_name, customers.phone_number as phone_number, customers.email as email
+      SELECT menu_id, menus.name as item_name, to_char(menus.price/100, 'FM99.00') as price, orders.id, order_placed_at, order_started_at, order_completed_at,
+      customers.name as customer_name, customers.phone_number as phone_number, customers.email as email, count(*) as cnt
       FROM items_ordered
       JOIN orders ON orders.id = order_id
       JOIN customers ON customer_id = customers.id
       JOIN menus ON menu_id = menus.id
-      WHERE order_id in (SELECT id FROM orders WHERE customer_id = (SELECT customer_id FROM orders ORDER BY order_placed_at DESC LIMIT 1))
-    )`
+      WHERE order_id = (SELECT id FROM orders ORDER BY order_placed_at DESC LIMIT 1)
+      GROUP BY menu_id, menus.name, menus.price, orders.id, order_placed_at, order_started_at, order_completed_at,
+      customers.name, customers.phone_number, customers.email;
+      `
     ).then((data) => {
       const orderDetails = data.rows;
       console.log(orderDetails);
       res.render("order", { orderDetails: orderDetails });
       // res.send(data.rows);
+    });
+  });
+
+  router.post("/delete", (req, res) => {
+    db.query(
+    `
+    SELECT orders.*, items_ordered.*
+    FROM items_ordered
+    JOIN orders ON orders.id = order_id
+    JOIN customers ON customer_id = customers.id
+    JOIN menus ON menu_id = menus.id
+    WHERE order_id in (SELECT id FROM orders WHERE customer_id = (SELECT customer_id FROM orders ORDER BY order_placed_at DESC LIMIT 1));
+    `)
+    .then((data) => {
+      const cancelledOrder = data.rows;
+      delete cancelledOrder;
+      res.redirect('/api/menu');
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
     });
   });
 

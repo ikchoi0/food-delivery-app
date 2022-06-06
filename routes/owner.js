@@ -9,6 +9,27 @@ const express = require('express');
 const router = express.Router();
 
 module.exports = (db) => {
+  router.get("/menu/create", (req, res) => {
+    res.render("add_menu");
+  });
+  router.post("/menu", (req, res) => {
+    const {
+      create_menu_name,
+      create_menu_photo_url,
+      create_menu_description,
+      create_menu_price
+    } = req.body;
+    db.query(
+      `
+        INSERT INTO menus (name, photo_url, description, price)
+        VALUES ($1, $2, $3, $4);
+      `, [create_menu_name, create_menu_photo_url, create_menu_description, Number(create_menu_price)]
+    ).then(() => {
+      res.redirect("/api/owner");
+    }).catch(error => {
+      console.log(error);
+    });
+  });
 
   router.get("/", (req, res) => {
     const orders = [];

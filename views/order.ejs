@@ -40,19 +40,37 @@
 
     <div>
       <span>Items Ordered: <% for (let i=0; i<orderDetails.length; i++) { %>
-        <%= orderDetails[i].item_name %>
+        <%= orderDetails[i].item_name %> x <%= orderDetails[i].cnt %> $<%= orderDetails[i].price %>
         <% } %>
       </span>
     </div>
 
     <div>
-      <span>Order Confirmed by Restaurant: <%
-        if (true) { %>
-          Yes
+      <span>Order Total: <% let sum = 0; for (let i=0; i<orderDetails.length; i++) { %>
+        <% let num = Number(orderDetails[i].price); let cnt = Number(orderDetails[i].cnt); sum += num*cnt; %>
+        <% } %>
+        $<%= sum.toFixed(2) %>
+      </span>
+    </div>
+
+    <div>
+      <span>Order Status: <%
+        if (orderDetails[0].order_started_at) { %>
+          Confirmed
+          <% } else if (orderDetails[0].order_completed_at) { %>
+          Ready for pickup
           <% } else { %>
-          No
+            Pending restaurant confirmation
           <% } %></span>
     </div>
-</body>
 
+    <div>
+      <span>Estimated Pick-Up Time: tbd</span>
+    </div>
+
+    <form method="post" action="/api/menu/delete" id="cancel" onclick="checker()">
+      <button type="button">Cancel Order</button>
+    </form>
+</body>
+<script type="text/javascript" src="/scripts/orders.js"></script>
 </html>
