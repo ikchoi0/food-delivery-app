@@ -54,6 +54,7 @@ module.exports = (db) => {
   });
 
   router.get("/order", (req, res) => {
+    const queryParams = [req.session.id, req.session.email, req.session.name, req.session.phone_number]
     db.query(
       `
       SELECT menu_id, menus.name as item_name, to_char(menus.price/100, 'FM99.00') as price, orders.id, order_placed_at, order_started_at, order_completed_at,
@@ -62,10 +63,10 @@ module.exports = (db) => {
       JOIN orders ON orders.id = order_id
       JOIN customers ON customer_id = customers.id
       JOIN menus ON menu_id = menus.id
-      WHERE order_id = (SELECT id FROM orders ORDER BY order_placed_at DESC LIMIT 1)
+      WHERE order_id = (SELECT id FROM orders ORDER BY order_placed_at DESC LIMIT 1) AND customer_id = $1
       GROUP BY menu_id, menus.name, menus.price, orders.id, order_placed_at, order_started_at, order_completed_at,
       customers.name, customers.phone_number, customers.email;
-      `
+      `, queryParams
     ).then((data) => {
       const orderDetails = data.rows;
       console.log(orderDetails);
