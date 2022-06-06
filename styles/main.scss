@@ -2,39 +2,131 @@ body {
   display: flex;
   min-height: 100vh;
   min-width: 1250px;
-
+  font-family: "Lato";
 }
 
-.links {
-  position: relative  ;
-  display: flex;
+
+// .main_text {
+//   color:rgb(181, 181, 0);
+//   font-size: 2em;
+//   font-weight: 600;
+// }
+
+// .main_text.customer{
+//   position: absolute;
+//   top: 50%;
+//   left: 25%;
+
+// }
+// .main_text.restaurant{
+//   position: absolute;
+//   top: 50%;
+//   right: 25%
+// }
+
+.main-container {
   flex-direction: row;
-  justify-content: space-evenly;
-  color: black;
+}
+
+.login-header {
+ display: flex;
+ flex-direction: row;
+ padding: 1em;
+ justify-content: space-evenly;
+ font-size: 2em;
+}
+
+.left-container {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  float: left;
+  align-items: center;
+}
+
+.right-container {
+  width: 50%;
+  float: right;
+}
+
+
+.login-form {
   width: 100%;
-  a {
-    width: 50%;
-    height: 100%;
-    .main_photo {
-      width: 100%;
-      min-width: auto;
-    }
-  }
+  display: flex;
+  flex-direction: column;
+  font-size: 1em;
+  padding: 5em 10em 10em 10em;
 }
-.main_text {
-  color:rgb(181, 181, 0);
+
+.login-title {
   font-size: 2em;
-  font-weight: 600;
+  padding-top: 5em;
+  padding-bottom: none;
 }
 
-.main_text.customer{
-  position: absolute;
-  top: 50%;
-  left: 25%;
-
+.email {
+  margin: 1em;
+  border-top: none;
+  border-left: none;
+  border-right: none;
 }
-.main_text.restaurant{
-  position: absolute;
-  top: 50%;
-  right: 25%
+
+.password {
+  margin: 1em;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+input:focus{
+  outline: none;
+}
+
+.submit {
+  margin: 1em;
+  border: none;
+}
+
+.submit:hover {
+  color: green;
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: none;
+  background-color: none;
+  margin-right: 50%;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10em, 12em;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  color: cornflowerblue;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  color: cornflowerblue;
+}
+
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+}
+
+.default {
+  display: block;
 }

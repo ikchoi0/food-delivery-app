@@ -15,9 +15,10 @@ html {
   width: 100%;
   padding: 0em;
   margin: 0em;
-  background-color: white;
-  color: black;
+  background-color: black;
+  color: white;
   height: 75px;
+  font-family: "Lato";
   font-size: 18px;
 }
 
@@ -25,6 +26,7 @@ html {
   padding: 0.5em;
   padding-left: 1em;
   font-weight: bold;
+  color:white;
 }
 
 .home {

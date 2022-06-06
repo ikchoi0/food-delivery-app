@@ -58,14 +58,12 @@
         if (orderDetails[0].order_started_at) { %>
           Confirmed
           <% } else if (orderDetails[0].order_completed_at) { %>
-          Ready for pickup
-          <% } else { %>
+            Ready for pickup
+          <% } else if (orderDetails[0].order_started_at === undefined){ %>
             Pending restaurant confirmation
-          <% } %></span>
-    </div>
-
-    <div>
-      <span>Estimated Pick-Up Time: tbd</span>
+          <% } else { %>
+            Order declined
+            <% } %></span>
     </div>
 
     <form method="post" action="/api/menu/delete" id="cancel" onclick="checker()">
