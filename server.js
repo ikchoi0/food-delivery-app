@@ -5,6 +5,8 @@ require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
+const session = require("express-session");
+
 const app = express();
 const morgan = require("morgan");
 
@@ -34,6 +36,10 @@ app.use(
 );
 
 app.use(express.static("public"));
+app.use(session({
+  secret:'Who will find it out'
+  ,name:'userSessionId'
+}));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
@@ -43,7 +49,7 @@ const ownerRoutes = require("./routes/owner");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-app.use("/", authenticationRoutes(db));
+app.use("/auth", authenticationRoutes(db));
 app.use("/api/menu", menuRoutes(db));
 app.use("/api/owner", ownerRoutes(db));
 // Note: mount other resources here, using the same pattern above
