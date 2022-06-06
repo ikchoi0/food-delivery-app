@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Home Page</title>
+  <title>Register</title>
 
   <!-- bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -22,63 +22,35 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet">
 
-  <!-- scripts -->
-  <script type="text/javascript" src="/scripts/app.js"></script>
-
    <!-- Add Icons -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- scripts -->
+  <script type="text/javascript" src="/scripts/app.js"></script>
 
 </head>
 <body>
   <%- include('partials/_header') %>
 
 <main class="main-container">
-  <div class="login-header">
-  <!-- <div class="left-container"> -->
-  <span class="i-am"> I'm a...</span>
-  <!-- Tab links -->
-  <span class="tab">
-    <button class="tablinks" onclick="openLogin(event, 'Customer')">Customer</button>
-    <button class="tablinks" onclick="openLogin(event, 'Restaurant')">Restaurant Owner</button>
-  </span>
-  </div>
+
   <!-- Customer login -->
-  <div id="Customer" class="tabcontent default">
+
     <div class="left-container">
-      <div class="login-title">Customer Login</div>
-      <form class="login-form" method="POST" action="/login">
+      <div class="register-title">Register</div>
+      <form class="register-form" method="POST" action="/register">
+        <input class="password" type="text" placeholder="name">
+        <input class="password" type="text" placeholder="phone number">
         <input class="email" type="email" placeholder="email">
         <input class="password" type="password" placeholder="password">
-        <button class="submit" type="submit">Login</button>
+        <button class="submit" type="submit">Register</button>
       </form>
-
-      <div>
-        <a href="/register">Register</a> for an account
-      </div>
     </div>
-    <div class="right-container">
+    <div class="right-container register">
       <i class="fa-solid fa-bacon icon3"></i>
       <i class="fa-solid fa-burger icon1"></i>
       <i class="fa-solid fa-bowl-food icon2"></i>
     </div>
-  </div>
-    <!-- Restaurant login -->
-  <div id="Restaurant" class="tabcontent">
-    <div class="left-container">
-      <div class="login-title">Restaurant Login</div>
-      <form class="login-form" method="POST" action="/login">
-        <input class="email" type="email" placeholder="email">
-        <input class="password" type="password" placeholder="password">
-        <button class="submit" type="submit">Login</button>
-      </form>
-    </div>
-    <div class="right-container">
-      <i class="fa-solid fa-bacon icon3"></i>
-      <i class="fa-solid fa-burger icon1"></i>
-      <i class="fa-solid fa-bowl-food icon2"></i>
-    </div>
-      </div>
-
 
 </main>
 </body>
