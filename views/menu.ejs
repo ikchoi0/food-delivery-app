@@ -28,9 +28,6 @@
     <%- include('partials/_header') %>
     <div class="container">
       <div class="sidebar">
-        <ul class="cart_items"></ul>
-        <div>Total $</div>
-        <div class="cart_total">0</div>
         <form class="place_order_form">
           <label for="customer_name">name: </label>
           <input type="text" name="customer_name" />
@@ -40,6 +37,9 @@
           <input type="text" name="customer_phone_number" />
           <button type="submit">Place Order</button>
         </form>
+        <ul class="cart_items"></ul>
+        <div>Total $</div>
+        <div class="cart_total">0</div>
       </div>
       <div class="d-flex flex-column">
         <% for(let menu of menus) { %>

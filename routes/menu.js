@@ -89,13 +89,16 @@ function addOrderHelper(orderData, data, db) {
   )
     .then((data) => {
       for (let key of Object.keys(orderData)) {
-        db.query(
-          `
-            INSERT INTO items_ordered (order_id, menu_id)
-            VALUES ($1, $2)
-          `,
-          [Number(data.rows[0].id), Number(key)]
-        );
+        const quantity = Number(orderData[key]);
+        for(let i = 0; i < quantity; i++) {
+          db.query(
+            `
+              INSERT INTO items_ordered (order_id, menu_id)
+              VALUES ($1, $2)
+            `,
+            [Number(data.rows[0].id), Number(key)]
+          );
+        }
       }
     })
     .catch((error) => {
