@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
   <link rel="stylesheet" href="/styles/main.css" type="text/css" />
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/owners.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/owner.css" type="text/css" />
 
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/scripts/app.js"></script>
@@ -22,21 +22,29 @@
   <%- include('partials/_header') %>
     <section class="view_orders">
       <% for (let order of orders) { %>
-        <div class="order-<%= order.order_id %>">
-          <div>
+        <div id="each_order" class="order-<%= order.order_id %>">
+          <div class="order_number">
             <%= order.order_id %>
-              <%= order.placed_time %>
-                <%= order.menu_name %>
           </div>
-          <div>
-            <%= order.total_items %>
+          <div class="menu_total">
+            <div class="menu_name">
+              <%= order.menu_name %>
+            </div>
+            <div class="total_items">
+              <%= order.total_items %>
+            </div>
+          </div>
+          <div class="order_time">
+            <%= order.placed_time %>
           </div>
           <div class="counter_form-<%= order.order_id %>">
-            <div class="order_form-<%= order.order_id %>">
+            <div id="order_form" class="order_form-<%= order.order_id %>">
               <form method="POST" action="/api/owner/decline" class="decline">
                 <input name="orderId" type="hidden" class="order_id" value="<%= order.order_id %>">
                 </input>
+                <div class="decline-button">
                 <button type="submit">decline</button>
+                </div>
               </form>
               <form method="POST" action="/api/owner/confirm" class="confirm">
                 <label>Estimated Time</label>
