@@ -20,7 +20,7 @@ module.exports = (db) => {
         res.status(500).json({ error: err.message });
       });
   });
-  
+
   router.post("/", (req, res) => {
     const orderData = req.body;
     //generate
@@ -61,7 +61,7 @@ module.exports = (db) => {
         });
       }
     })
-    res.redirect("/");
+    res.send({message: "success"});
   });
 
   router.get("/order", (req, res) => {

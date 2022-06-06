@@ -18,24 +18,24 @@
 </head>
 <body>
   <%- include('partials/_header') %>
-
-  <form action="">
-    <div>
-      <label for="">Menu Name:</label>
-      <input type="text" name="create_menu_name">
+  <form class="create_menu" action="/api/owner/menu" method="POST">
+    <div class="form-group">
+      <label for="create_menu_name">Menu Name</label>
+      <input type="text" class="form-control create_menu_name" name="create_menu_name">
     </div>
-    <div>
-      <label for="description">Description: </label>
-      <textarea name="create_menu_description" cols="30" rows="10"></textarea>
+    <div class="form-group">
+      <label for="create_menu_photo_url">Photo</label>
+      <input placeholder="Please enter an URL for photo" type="text" class="form-control create_menu_photo_url" name="create_menu_photo_url">
     </div>
-    <div>
-      <label for="">photo url: </label>
-      <textarea name="create_menu_photo_url" cols="30" rows="10"></textarea>
+    <div class="form-group">
+      <label for="create_menu_description">Description</label>
+      <textarea class="form-control create_menu_description" rows="5" name="create_menu_description"></textarea>
     </div>
-    <div>
-      <label for="">price: </label>
-      <input type="text" name="create_menu_price">
+    <div class="form-group">
+      <label for="create_menu_price">Price</label>
+      <input type="text" class="form-control create_menu_price" name="create_menu_price">
     </div>
+    <button type="submit" class="btn btn-primary">Create</button>
   </form>
 </body>
 </html>
