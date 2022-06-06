@@ -4,7 +4,7 @@ body {
   min-width: 1250px;
   font-family: "Lato";
   height: 100%;
-  background: linear-gradient(90deg, white 50%, cornflowerblue 50%);
+  background: linear-gradient(90deg, white 50%, darkorange 50%);
 }
 
 .main-container {
@@ -84,11 +84,12 @@ input:focus{
 
 .submit {
   margin: 1em;
-  border: none;
+  border: 1px solid black;
+  background-color: white;
 }
 
 .submit:hover {
-  color: green;
+  background-color: #EFEFEF;
 }
 
 .icon1 {
