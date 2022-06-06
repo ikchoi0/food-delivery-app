@@ -14,6 +14,8 @@ const morgan = require("morgan");
 const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
 const db = new Pool(dbParams);
+const {handleAlreadyLoggedIn} = require("./lib/auth-helper");
+
 db.connect();
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -59,7 +61,7 @@ app.use("/api/owner", ownerRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
-app.get("/", (req, res) => {
+app.get("/", handleAlreadyLoggedIn, (req, res) => {
   res.render("index");
 });
 

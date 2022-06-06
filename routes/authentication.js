@@ -9,19 +9,17 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const {handleAlreadyLoggedIn} = require("../lib/auth-helper");
 module.exports = (db) => {
   router.post("/login", handleAlreadyLoggedIn, (req, res) => {
     const userInfo = req.body;
-    let userEamil = userInfo.email;
-    let userPassword = userInfo.password;
-    console.log(userInfo);
-    db.query(`SELECT * FROM customers WHERE email = $1`, [userEamil]).then(
+    db.query(`SELECT * FROM customers WHERE email = $1`, [userInfo.email]).then(
       (data) => {
         const savedUserInfo = data.rows[0];
         // found customer from database
         if (savedUserInfo) {
           const dbUserPassword = savedUserInfo.password;
-          bcrypt.compare(userPassword, dbUserPassword, function (err, result) {
+          bcrypt.compare(userInfo.password, dbUserPassword, function (err, result) {
             if (result) {
               req.session.id = savedUserInfo.id;
               req.session.email = savedUserInfo.email;
@@ -42,13 +40,16 @@ module.exports = (db) => {
       }
     );
   });
+  router.get("/register", handleAlreadyLoggedIn, (req, res) => {
+    res.render("register");
+  });
   router.post("/register", handleAlreadyLoggedIn, (req, res) => {
     const userInfo = req.body;
     const userName = userInfo.name;
     const userEmail = userInfo.email;
     const userPhoneNumber = userInfo.phone_number;
-
-    db.query(`SELECT * FROM customers WHERE email = $1;`, [userEamil]).then(
+    console.log(userInfo);
+    db.query(`SELECT * FROM customers WHERE email = $1;`, [userEmail]).then(
       (data) => {
         const savedUserInfo = data.rows[0];
         // found customer from database, send to login page
@@ -58,19 +59,20 @@ module.exports = (db) => {
         bcrypt.hash(userInfo.password, saltRounds, function (err, hash) {
           db.query(
             `
-              INSERT INTO customers
-              VALUES ($1, $2 $3, $4)
+              INSERT INTO customers (name, email, phone_number, password)
+              VALUES ($1, $2, $3, $4)
               RETURNING id, name, email, phone_number;
             `,
             [userName, userEmail, userPhoneNumber, hash]
           ).then((data) => {
             const savedUserInfo = data.rows[0];
             console.log(savedUserInfo);
-
-            req.session.name = userInfo;
-            req.session.email = userName;
-            req.session.phone_number = userPhoneNumber;
+            req.session.id = savedUserInfo.id;
+            req.session.email = savedUserInfo.email;
+            req.session.name = savedUserInfo.name;
+            req.session.phone_number = savedUserInfo.phone_number;
             req.session.loggedIn = true;
+            return res.redirect("/api/menu");
           });
         });
       }
@@ -78,14 +80,3 @@ module.exports = (db) => {
   });
   return router;
 };
-
-function handleAlreadyLoggedIn(req, res, next) {
-  if (req.session.loggedIn) {
-    if (req.session.email === "owner@owner.com") {
-      return res.redirect("/api/owner");
-    }
-    return res.redirect("/api/menu");
-  } else {
-    next();
-  }
-}
