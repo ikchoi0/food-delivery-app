@@ -22,6 +22,17 @@
   justify-content: center;
 }
 
+.x-button {
+  color: white;
+  padding: 1em 0.5em 1em 0.5em;
+  margin-left: 0.5em;
+
+}
+
+.x-button:hover {
+  color: red;
+}
+
 .cart {
   color:white;
   float: right;
@@ -30,19 +41,30 @@
   text-align: center;
 }
 
+.cart:hover {
+  color: cornflowerblue;
+}
+
 .sidebar {
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: black;
+  color: white;
+  opacity: 50%;
   width: 25%;
   position: fixed;
-  min-height: 50%;
+  height: 100%;
   right: 0;
+  transition: 0.5s;
 }
 
 .cart_item_id{
   flex-direction: row;
   width: 100%;
+}
+
+.total_price {
+  padding-left: 1em;
 }
 
 .place_order_form {
