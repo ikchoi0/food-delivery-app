@@ -34,17 +34,10 @@
     <title>Menu</title>
   </head>
   <body>
-      <header class="header">
-        <div class="left-nav">
-          <a class="logo" href="/">Restaurant Name</a>
-        </div>
-        <div class="right-nav">
-          <a href="javascript:void(0)" class="cart-container" onclick="openNav()"><i class="fa-solid fa-cart-shopping cart"></i></a>
-          <% if (Object.keys(user).length) { %>
-          <a class="logout_button" href="">Logout</a>
-          <% } %>
-      </div>
-    </header>
+    <%- include('partials/_header', { user: user}) %>
+
+
+
     <div class="menu-container">
       <div class="sidebar" id="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa-solid fa-x x-button"></i></a>
