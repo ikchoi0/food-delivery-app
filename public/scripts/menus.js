@@ -89,12 +89,20 @@ $(() => {
       sidebar.css("opacity", "0%");
     }
   });
+
+  // click action for clear cart
+$(".clear-cart").on("click", function (e) {
+  console.log('hi');
+  localStorage.clear();
+  window.location.replace("/api/menu");
+});
 });
 
 function updateCartTotal(price, total = Number($(".cart_total").text())) {
   const newTotal = total + price;
   $(".cart_total").text(newTotal.toFixed(2));
 }
+
 
 /* Set the width of the side navigation to 0 */
 function closeNav() {
@@ -140,3 +148,5 @@ function updateCartIcon (quantity) {
   itemsInCart.css("color", color);
   itemsInCart.text(totalQuantity);
 }
+
+

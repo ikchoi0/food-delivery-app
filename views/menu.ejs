@@ -46,9 +46,10 @@
     <%- include('partials/_header', { user: user}) %>
     <div class="menu-container">
       <div class="sidebar" id="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
-          ><i class="fa-solid fa-x x-button"></i
-        ></a>
+       <div> <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+          ><i class="fa-solid fa-x x-button"></i></a>
+          <button class="clear-cart">Clear Cart</button>
+        </div>
         <ul class="cart_items"></ul>
         <span class="total_price"
           >Total $<span class="cart_total">0</span></span

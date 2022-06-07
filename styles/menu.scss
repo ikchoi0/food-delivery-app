@@ -78,3 +78,14 @@
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
+.clear-cart {
+  margin: 1em;
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: none;
+  float: right;
+}
+
+.clear-cart:hover {
+  color: red;
+}
