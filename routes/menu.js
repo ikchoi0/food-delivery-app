@@ -5,9 +5,11 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
+const { sendSMS } = require("../public/scripts/twilio");
 const express = require("express");
 const router = express.Router();
 const { authenticateUser } = require("../lib/auth-helper");
+
 module.exports = (db) => {
   router.get("/", authenticateUser, (req, res) => {
     db.query(`SELECT * FROM menus;`)
@@ -24,6 +26,7 @@ module.exports = (db) => {
     const orderData = req.body;
     const id = req.session.id;
     addOrderHelper(orderData, id, db);
+
     // TO FIX: redirect after data is added in the for loop
     setTimeout(() => {
       res.send({ message: "success" });
@@ -66,6 +69,11 @@ module.exports = (db) => {
       .then((data) => {
         const cancelledOrder = data.rows;
         delete cancelledOrder;
+        sendSMS(
+          '6042670097',
+          `Order number ${data.rows[0].id} has been cancelled.`
+        );
+
         res.redirect("/api/menu");
       })
       .catch((err) => {
@@ -104,6 +112,12 @@ function addOrderHelper(orderData, customerId, db) {
           );
         }
       }
+
+    sendSMS(
+      '6042670097',
+      `A new order has been placed. The order number is ${data.rows[0].id}.`
+    );
+
     })
     .catch((error) => {
       console.log(error);
