@@ -5,6 +5,7 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
+const { sendSMS } = require("../public/scripts/twilio");
 const express = require("express");
 const router = express.Router();
 const { authenticateUser, authenticateOwner } = require("../lib/auth-helper");
@@ -98,7 +99,7 @@ module.exports = (db) => {
     "/order/complete",
     authenticateUser,
     authenticateOwner,
-    (req, res) => {
+    (req, res) => {;
       const { orderId } = req.body;
       db.query(
         `
@@ -108,8 +109,20 @@ module.exports = (db) => {
         `, [orderId]
       )
       .then((data) => {
+        console.log('data', data.rows[0].customer_id);
+        const phone_number = db.query(
+          `SELECT phone_number
+          FROM customers
+          WHERE customers.id = $1;`, [data.rows[0].customer_id]
+          );
+        console.log(phone_number);
+        sendSMS(
+          phone_number,
+          `🍕 Order #${data.rows[0].id} is ready for pickup.`
+        );
         res.send(data.rows);
-      });
+      })
+
     }
   );
   return router;
