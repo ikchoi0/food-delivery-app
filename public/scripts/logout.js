@@ -1,4 +1,5 @@
 $(() => {
+  /* handles logout: clears the cart by clearing localstorage  */
   $(".logout_button").on("click", function(e) {
     e.preventDefault();
     $.post("/auth/logout")
