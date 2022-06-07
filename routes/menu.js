@@ -31,20 +31,22 @@ module.exports = (db) => {
   });
 
   router.get("/order", authenticateUser, (req, res) => {
-    db.query(
-      `
-      SELECT menu_id, menus.name as item_name, to_char(menus.price/100, 'FM99.00') as price, orders.id, order_placed_at, order_started_at, order_completed_at,
-      customers.name as customer_name, customers.phone_number as phone_number, customers.email as email, count(*) as cnt
-      FROM items_ordered
-      JOIN orders ON orders.id = order_id
-      JOIN customers ON customer_id = customers.id
-      JOIN menus ON menu_id = menus.id
-      WHERE order_id = (SELECT id FROM orders ORDER BY order_placed_at DESC LIMIT 1) AND customer_id = $1
-      GROUP BY menu_id, menus.name, menus.price, orders.id, order_placed_at, order_started_at, order_completed_at,
-      customers.name, customers.phone_number, customers.email;
-      `, queryParams
-    ).then((data) => {
+    const queryString = `
+    SELECT menu_id, menus.name as item_name, to_char(menus.price/100, 'FM99.00') as price, orders.id, order_placed_at, order_started_at, order_completed_at,
+    customers.name as customer_name, customers.phone_number as phone_number, customers.email as email, count(*) as cnt
+    FROM items_ordered
+    JOIN orders ON orders.id = order_id
+    JOIN customers ON customer_id = customers.id
+    JOIN menus ON menu_id = menus.id
+    WHERE order_id = (SELECT id FROM orders ORDER BY order_placed_at DESC LIMIT 1) AND customer_id = $1
+    GROUP BY menu_id, menus.name, menus.price, orders.id, order_placed_at, order_started_at, order_completed_at,
+    customers.name, customers.phone_number, customers.email;
+    `
+    const queryParams = [req.session.id];
+    db.query(queryString, queryParams)
+    .then((data) => {
       const orderDetails = data.rows;
+      const customerDetails = [req.session.id, req.session.name, req.session.email]
       console.log('order details', orderDetails, 'customer details', customerDetails);
       res.render("order", { orderDetails: orderDetails , user: req.session });
     });
