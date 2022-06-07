@@ -11,8 +11,23 @@
   width: auto;
 }
 
+.right-nav {
+  display: flex;
+  flex-direction: row;
+}
+
+.cart-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .cart {
-  position: relative;
+  color:white;
+  float: right;
+  font-size: 1.5em;
+  padding-right: 0.5em;
+  text-align: center;
 }
 
 .sidebar {

@@ -23,17 +23,31 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
+    <!-- Add Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Custom scripts -->
     <script type="text/javascript" src="/scripts/menus.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/logout.js"></script>
 
     <title>Menu</title>
   </head>
   <body>
-    <%- include('partials/_header', { user: user}) %>
+      <header class="header">
+        <div class="left-nav">
+          <a class="logo" href="/">Restaurant Name</a>
+        </div>
+        <div class="right-nav">
+          <span class="cart-container" onclick="openNav()"><i class="fa-solid fa-cart-shopping cart"></i></span>
+          <% if (Object.keys(user).length) { %>
+          <a class="logout_button" href="">Logout</a>
+          <% } %>
+      </div>
+    </header>
     <div class="menu-container">
-      <div class="sidebar">
+      <div class="sidebar" id="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa-solid fa-x"></i></a>
         <form class="place_order_form">
         <div>
           <label for="customer_name">Name: </label>

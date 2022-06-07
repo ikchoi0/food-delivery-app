@@ -84,3 +84,13 @@ function updateCartTotal (price) {
   const newTotal = Number(cartTotal.text()) + price;
   cartTotal.text(newTotal.toFixed(2));
 }
+
+/* Set the width of the side navigation to 250px */
+function openNav() {
+  document.getElementById("sidebar").style.width = "25%";
+}
+
+/* Set the width of the side navigation to 0 */
+function closeNav() {
+  document.getElementById("sidebar").style.width = "0";
+}
