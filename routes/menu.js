@@ -69,7 +69,11 @@ module.exports = (db) => {
       .then((data) => {
         sendSMS(
           '6042670097',
-          `Order number ${data.rows[0].id} has been cancelled.`
+          `❌Order number ${data.rows[0].id} has been cancelled❌`
+        );
+        sendSMS(
+          req.session.phone_number,
+          `❌Order number ${data.rows[0].id} has been cancelled❌`
         );
         const cancelledOrder = data.rows;
         delete cancelledOrder;
@@ -114,7 +118,7 @@ function addOrderHelper(orderData, customerId, db) {
 
     sendSMS(
       '6042670097',
-      `A new order has been placed. The order number is ${data.rows[0].id}.`
+      `🍕 A new order has been placed. The order number is ${data.rows[0].id}.`
     );
 
     })
