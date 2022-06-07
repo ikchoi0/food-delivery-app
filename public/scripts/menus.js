@@ -140,7 +140,11 @@ function setCart () {
 
 function updateCartIcon (quantity) {
   const itemsInCart = $(".items_in_cart");
-  const totalQuantity = Number(itemsInCart.text()) + quantity;
+  let itemsInCartCount = Number(itemsInCart.text());
+  if (!itemsInCartCount) {
+    itemsInCartCount = 0;
+  }
+  const totalQuantity =  itemsInCartCount + quantity;
   let color = "white";
   if (totalQuantity > 0) {
     color = "red";
