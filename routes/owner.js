@@ -51,12 +51,12 @@ module.exports = (db) => {
 
     db.query(
       `
-        SELECT orders.id AS order_id, ARRAY_AGG(menus.name) AS menu_name, COUNT(menus.*) AS total_items, orders.order_placed_at AS placed_time, order_started_at, order_completed_at
+        SELECT orders.id AS order_id, customers.name, ARRAY_AGG(menus.name) AS menu_name, COUNT(menus.*) AS total_items, orders.order_placed_at AS placed_time, order_started_at, order_completed_at
         FROM orders
         JOIN items_ordered ON orders.id = items_ordered.order_id
         JOIN menus ON menus.id = items_ordered.menu_id
         JOIN customers ON customers.id = orders.customer_id
-        GROUP BY orders.id;
+        GROUP BY orders.id, customers.name;
       `
     )
     .then((data) => {
@@ -68,7 +68,7 @@ module.exports = (db) => {
     });
   });
 
-  router.post("/decline", authenticateUser, authenticateOwner, (req, res) => {
+  router.post("/order/decline", authenticateUser, authenticateOwner, (req, res) => {
     const { orderId } = req.body;
     db.query(`DELETE FROM orders WHERE id = $1;`, [orderId]).then((data) => {
       res.send(data.rows[0]);
@@ -94,6 +94,29 @@ module.exports = (db) => {
       });
     }
   );
+
+  router.get("/order/complete",  authenticateUser,
+  authenticateOwner, (req, res) => {
+    const orders = [];
+
+    db.query(
+      `
+        SELECT orders.id AS order_id, customers.name,  ARRAY_AGG(menus.name) AS menu_name, COUNT(menus.*) AS total_items, orders.order_placed_at AS placed_time, order_started_at, order_completed_at
+        FROM orders
+        JOIN items_ordered ON orders.id = items_ordered.order_id
+        JOIN menus ON menus.id = items_ordered.menu_id
+        JOIN customers ON customers.id = orders.customer_id
+        GROUP BY orders.id, customers.name;
+      `
+    )
+    .then((data) => {
+      orders.push(...data.rows);
+      res.render("owner_order_completed", { orders: orders, user: req.session });
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+  });
 
   router.post(
     "/order/complete",

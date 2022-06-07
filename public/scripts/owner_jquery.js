@@ -2,7 +2,7 @@ $(() => {
   $(".decline").on("submit", function (e) {
     e.preventDefault();
     const data = $(this).serialize();
-    $.post("/api/owner/decline", data);
+    $.post("/api/owner/order/decline", data);
     $(this).parent().parent().parent().remove();
   });
 
