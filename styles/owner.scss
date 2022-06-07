@@ -1,51 +1,54 @@
 .view_orders {
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  gap: 100px;
-  padding: 50px
 }
+// .view_orders {
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-evenly;
+//   flex-wrap: wrap;
+//   gap: 100px;
+//   padding: 50px
+// }
 
-#each_order {
-  display: flex;
-  flex-direction: column;
-  border-style: solid;
-  padding: 10px;
-}
+// #each_order {
+//   display: flex;
+//   flex-direction: column;
+//   border-style: solid;
+//   padding: 10px;
+// }
 
-.order_number {
-  display: flex;
-  border-style: double;
-  justify-content: center;
-}
+// .order_number {
+//   display: flex;
+//   border-style: double;
+//   justify-content: center;
+// }
 
-.menu_total {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  padding: 10px;
-}
+// .menu_total {
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-around;
+//   padding: 10px;
+// }
 
-.menu_name {
-  display: flex;
-  flex-direction: column;
+// .menu_name {
+//   display: flex;
+//   flex-direction: column;
 
-}
+// }
 
-.total_itmes {
-  display: flex;
-  justify-content: center;
-}
+// .total_itmes {
+//   display: flex;
+//   justify-content: center;
+// }
 
-.order_time {
-  display: flex;
-  padding: 10px;
-  justify-content: center;
-}
+// .order_time {
+//   display: flex;
+//   padding: 10px;
+//   justify-content: center;
+// }
 
-#order_form {
-  display: flex;
-  padding: 10px;
-  gap: 20px;
-}
+// #order_form {
+//   display: flex;
+//   padding: 10px;
+//   gap: 20px;
+// }
