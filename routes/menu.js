@@ -56,24 +56,27 @@ module.exports = (db) => {
   });
 
   router.post("/delete", authenticateUser, (req, res) => {
-    db.query(
-      `
+    const queryString =      `
     SELECT orders.*, items_ordered.*
     FROM items_ordered
     JOIN orders ON orders.id = order_id
     JOIN customers ON customer_id = customers.id
     JOIN menus ON menu_id = menus.id
-    WHERE order_id in (SELECT id FROM orders WHERE customer_id = (SELECT customer_id FROM orders ORDER BY order_placed_at DESC LIMIT 1));
+    WHERE order_id = (SELECT id FROM orders ORDER BY order_placed_at DESC LIMIT 1) AND customer_id = $1;
     `
-    )
+    const queryParams = [req.session.id]
+    db.query(queryString, queryParams)
       .then((data) => {
-        const cancelledOrder = data.rows;
-        delete cancelledOrder;
         sendSMS(
           '6042670097',
-          `Order number ${data.rows[0].id} has been cancelled.`
+          `❌Order number ${data.rows[0].id} has been cancelled❌`
         );
-
+        sendSMS(
+          req.session.phone_number,
+          `❌Order number ${data.rows[0].id} has been cancelled❌`
+        );
+        const cancelledOrder = data.rows;
+        delete cancelledOrder;
         res.redirect("/api/menu");
       })
       .catch((err) => {
@@ -115,7 +118,7 @@ function addOrderHelper(orderData, customerId, db) {
 
     sendSMS(
       '6042670097',
-      `A new order has been placed. The order number is ${data.rows[0].id}.`
+      `🍕 A new order has been placed. The order number is ${data.rows[0].id}.`
     );
 
     })

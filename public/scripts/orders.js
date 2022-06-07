@@ -5,3 +5,7 @@ function checker() {
     return;
   }
 };
+
+$(() => {
+  $(".cart-container").css("display", "none");
+})
