@@ -22,35 +22,43 @@
   <%- include('partials/_header', { user: user }) %>
     <section class="view_orders">
       <% for (let order of orders) { %>
-        <div class="order-<%= order.order_id %>">
-          <div>
-            <%= order.order_id %>
+        <% if (!order.order_completed_at) { %>
+          <div class="order-<%= order.order_id %>">
+            <div>
+              <%= order.order_id %>
               <%= order.placed_time %>
-                <%= order.menu_name %>
-          </div>
-          <div>
-            <%= order.total_items %>
-          </div>
-          <div class="counter_form-<%= order.order_id %>">
-            <div class="order_form-<%= order.order_id %>">
-              <form method="POST" action="/api/owner/decline" class="decline">
-                <input name="orderId" type="hidden" class="order_id" value="<%= order.order_id %>">
-                </input>
-                <button type="submit">decline</button>
-              </form>
-              <form method="POST" action="/api/owner/confirm" class="confirm">
-                <label>Estimated Time</label>
-                <input name="orderId" type="hidden" class="order_id" value="<%= order.order_id %>">
-                </input>
-                <input name="confirm_time" class="confirmTime">
-                </input>
-                <labe>mins</label>
-                  <button type="submit">Confirm</button>
-              </form>
+              <%= order.menu_name %>
+            </div>
+            <div>
+              <%= order.total_items %>
+            </div>
+            <div class="counter_form-<%= order.order_id %>">
+              <div class="order_form-<%= order.order_id %>">
+                <form method="POST" action="/api/owner/decline" class="decline">
+                  <input name="orderId" type="hidden" class="order_id" value="<%= order.order_id %>">
+                  </input>
+                  <button type="submit">decline</button>
+                </form>
+                <% if (!order.order_started_at) { %>
+                <form action="" class="confirm_order_form">
+                  <input name="orderId" type="hidden" class="order_id" value="<%= order.order_id %>">
+                  </input>
+                  <input type="submit" value="confirm order">
+                </form>
+                <% } else { %>
+                  <div><%= order.order_started_at %></div>
+                  <form action="" class="complete_order_form">
+                    <input name="orderId" type="hidden" class="order_id" value="<%= order.order_id %>">
+                    <input type="submit" value="complete order">
+                  </form>
+                <% } %>
+              </div>
             </div>
           </div>
-        </div>
+        <% } else {%>
+          <div>completed item: ><%= order.menu_name %></div><%= order.order_completed_at %>
         <% } %>
+      <% } %>
     </section>
 </body>
 
