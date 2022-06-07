@@ -22,7 +22,7 @@
   <%- include('partials/_header', { user: user }) %>
     <section class="view_orders">
       <% for (let order of orders) { %>
-        <% if (!order.order_completed_at) { %>
+        <% if (order.order_completed_at) { %>
           <div class="order-<%= order.order_id %>">
             <div>
               <%= order.order_id %>
