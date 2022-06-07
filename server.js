@@ -5,6 +5,8 @@ require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
+const cookieSession = require("cookie-session");
+
 const app = express();
 const morgan = require("morgan");
 
@@ -12,6 +14,8 @@ const morgan = require("morgan");
 const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
 const db = new Pool(dbParams);
+const {handleAlreadyLoggedIn} = require("./lib/auth-helper");
+
 db.connect();
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -34,14 +38,21 @@ app.use(
 );
 
 app.use(express.static("public"));
+app.use(cookieSession({
+  name:'session',
+  keys: ['who will find it out'],
+  maxAge: 60*60*1000
+}));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
+const authenticationRoutes = require("./routes/authentication");
 const menuRoutes = require("./routes/menu");
 const ownerRoutes = require("./routes/owner");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
+app.use("/auth", authenticationRoutes(db));
 app.use("/api/menu", menuRoutes(db));
 app.use("/api/owner", ownerRoutes(db));
 // Note: mount other resources here, using the same pattern above
@@ -50,8 +61,8 @@ app.use("/api/owner", ownerRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
-app.get("/", (req, res) => {
-  res.render("index");
+app.get("/", handleAlreadyLoggedIn, (req, res) => {
+  res.render("index", { user: req.session });
 });
 
 // app.get("/register", (req, res) => {

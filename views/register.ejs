@@ -30,7 +30,7 @@
 
 </head>
 <body>
-  <%- include('partials/_header') %>
+  <%- include('partials/_header', { user: user }) %>
 
 <main class="main-container">
 
@@ -38,11 +38,11 @@
 
     <div class="left-container">
       <div class="register-title">Register</div>
-      <form class="register-form" method="POST" action="/register">
-        <input class="password" type="text" placeholder="name">
-        <input class="password" type="text" placeholder="phone number">
-        <input class="email" type="email" placeholder="email">
-        <input class="password" type="password" placeholder="password">
+      <form class="register-form" method="POST" action="/auth/register">
+        <input name="name" class="name password" type="text" placeholder="name">
+        <input name="phone_number" class="phone_number password" type="text" placeholder="phone number">
+        <input name="email" class="email" type="email" placeholder="email">
+        <input name="password" class="password" type="password" placeholder="password">
         <button class="submit" type="submit">Register</button>
       </form>
     </div>

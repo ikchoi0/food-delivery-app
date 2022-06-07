@@ -30,7 +30,7 @@
 
 </head>
 <body>
-  <%- include('partials/_header') %>
+  <%- include('partials/_header', { user: user}) %>
 
 <main class="main-container">
   <div class="login-header">
@@ -46,14 +46,14 @@
   <div id="Customer" class="tabcontent default">
     <div class="left-container">
       <div class="login-title">Customer Login</div>
-      <form class="login-form" method="POST" action="/login">
-        <input class="email" type="email" placeholder="email">
-        <input class="password" type="password" placeholder="password">
+      <form class="login-form" method="POST" action="/auth/login">
+        <input value="customer@customer.com" name="email" class="email" type="email" placeholder="email">
+        <input name="password" class="password" type="password" placeholder="password">
         <button class="submit" type="submit">Login</button>
       </form>
 
       <div>
-        <a href="/register">Register</a> for an account
+        <a href="/auth/register">Register</a> for an account
       </div>
     </div>
     <div class="right-container">
@@ -66,9 +66,9 @@
   <div id="Restaurant" class="tabcontent">
     <div class="left-container">
       <div class="login-title">Restaurant Login</div>
-      <form class="login-form" method="POST" action="/login">
-        <input class="email" type="email" placeholder="email">
-        <input class="password" type="password" placeholder="password">
+      <form class="login-form" method="POST" action="/auth/login">
+        <input value="owner@owner.com" name="email" class="email" type="email" placeholder="email">
+        <input name="password" class="password" type="password" placeholder="password">
         <button class="submit" type="submit">Login</button>
       </form>
     </div>

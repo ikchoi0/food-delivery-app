@@ -7,20 +7,20 @@
 
 const express = require("express");
 const router = express.Router();
-
+const { authenticateUser } = require("../lib/auth-helper");
 module.exports = (db) => {
-  router.get("/", (req, res) => {
+  router.get("/", authenticateUser, (req, res) => {
     db.query(`SELECT * FROM menus;`)
       .then((data) => {
         const menus = data.rows;
-        res.render("menu", { menus: menus });
+        res.render("menu", { menus: menus, user: req.session });
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
       });
   });
 
-  router.post("/", (req, res) => {
+  router.post("/", authenticateUser, (req, res) => {
     const orderData = req.body;
     const customerName = orderData.customer_name;
     const customerEmail = orderData.customer_email;
@@ -45,16 +45,14 @@ module.exports = (db) => {
           addOrderHelper(orderData, data, db);
         });
       }
-    })
+    });
     // TO FIX: redirect after data is added in the for loop
     setTimeout(() => {
-      res.send({message: "success"});
+      res.send({ message: "success" });
     }, 1000);
-
   });
 
-  router.get("/order", (req, res) => {
-    const queryParams = [req.session.id, req.session.email, req.session.name, req.session.phone_number]
+  router.get("/order", authenticateUser, (req, res) => {
     db.query(
       `
       SELECT menu_id, menus.name as item_name, to_char(menus.price/100, 'FM99.00') as price, orders.id, order_placed_at, order_started_at, order_completed_at,
@@ -70,29 +68,30 @@ module.exports = (db) => {
     ).then((data) => {
       const orderDetails = data.rows;
       console.log(orderDetails);
-      res.render("order", { orderDetails: orderDetails });
+      res.render("order", { orderDetails: orderDetails , user: req.session });
       // res.send(data.rows);
     });
   });
 
-  router.post("/delete", (req, res) => {
+  router.post("/delete", authenticateUser, (req, res) => {
     db.query(
-    `
+      `
     SELECT orders.*, items_ordered.*
     FROM items_ordered
     JOIN orders ON orders.id = order_id
     JOIN customers ON customer_id = customers.id
     JOIN menus ON menu_id = menus.id
     WHERE order_id in (SELECT id FROM orders WHERE customer_id = (SELECT customer_id FROM orders ORDER BY order_placed_at DESC LIMIT 1));
-    `)
-    .then((data) => {
-      const cancelledOrder = data.rows;
-      delete cancelledOrder;
-      res.redirect('/api/menu');
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
+    `
+    )
+      .then((data) => {
+        const cancelledOrder = data.rows;
+        delete cancelledOrder;
+        res.redirect("/api/menu");
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
   });
 
   return router;
@@ -117,7 +116,7 @@ function addOrderHelper(orderData, data, db) {
     .then((data) => {
       for (let key of Object.keys(orderData)) {
         const quantity = Number(orderData[key]);
-        for(let i = 0; i < quantity; i++) {
+        for (let i = 0; i < quantity; i++) {
           db.query(
             `
               INSERT INTO items_ordered (order_id, menu_id)

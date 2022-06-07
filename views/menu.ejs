@@ -31,8 +31,7 @@
     <title>Menu</title>
   </head>
   <body>
-    <%- include('partials/_header') %>
-    <div><i class="fa-solid fa-cart-shopping cart"></i></div>
+    <%- include('partials/_header', { user: user}) %>
     <div class="menu-container">
       <div class="sidebar">
         <form class="place_order_form">
@@ -66,7 +65,8 @@
             <div class="menu_item_name"><%= menu.name%></div>
             <div class="menu_item_description"><%= menu.description%></div>
             <div class="menu_item_footer d-flex">
-              <div class="menu_item_price"><%= menu.price / 100 %></div>
+              <div class="pt-2">$</div>
+              <div class="menu_item_price pt-2"><%= menu.price / 100 %></div>
               <div class="d-flex flex-row align-items-center item_counter">
                 <div class="subtract p-2">-</div>
                 <div class="count">0</div>
