@@ -38,3 +38,14 @@
   color: red;
   background-color: #EFEFEF;
 }
+.cart {
+  color:white;
+  float: right;
+  font-size: 1.5em;
+  padding-right: 0.5em;
+  text-align: center;
+}
+
+.cart:hover {
+  color: cornflowerblue;
+}

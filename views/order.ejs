@@ -47,9 +47,8 @@
     </div>
 
     <div class="order-detail">
-      <span><span class="order-label">Order Placed At: </span><%
-
-      const event = new Date(orderDetails[0].order_placed_at);%>
+      <span><span class="order-label">Order Placed At: </span>
+      <% const event = new Date(orderDetails[0].order_placed_at); %>
 
       <%= event.toLocaleString('en-GB', { timeZone: 'UTC' })
 

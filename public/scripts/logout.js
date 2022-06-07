@@ -3,6 +3,7 @@ $(() => {
     e.preventDefault();
     $.post("/auth/logout")
     .then(response => {
+      localStorage.clear();
       window.location.replace("/");
     })
     .catch(error => {
