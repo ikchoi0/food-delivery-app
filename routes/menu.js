@@ -22,30 +22,8 @@ module.exports = (db) => {
 
   router.post("/", authenticateUser, (req, res) => {
     const orderData = req.body;
-    const customerName = orderData.customer_name;
-    const customerEmail = orderData.customer_email;
-    const customerPhoneNumber = orderData.customer_phone_number;
-    ["customer_name", "customer_email", "customer_phone_number"].forEach(
-      (key) => delete orderData[key]
-    );
-    db.query(`SELECT id FROM customers WHERE email = $1;`, [
-      customerEmail,
-    ]).then((data) => {
-      if (data.rows.length) {
-        addOrderHelper(orderData, data, db);
-      } else {
-        db.query(
-          `
-            INSERT INTO customers (name, email, phone_number)
-            VALUES ($1, $2, $3)
-            RETURNING id;
-          `,
-          [customerName, customerEmail, customerPhoneNumber]
-        ).then((data) => {
-          addOrderHelper(orderData, data, db);
-        });
-      }
-    });
+    const id = req.session.id;
+    addOrderHelper(orderData, id, db);
     // TO FIX: redirect after data is added in the for loop
     setTimeout(() => {
       res.send({ message: "success" });
@@ -101,8 +79,7 @@ module.exports = (db) => {
 // triggers notification to owner that the order has been placed
 // POST request to cancel form (either redirect or clear same page)
 
-function addOrderHelper(orderData, data, db) {
-  const customerId = Number(data.rows[0].id);
+function addOrderHelper(orderData, customerId, db) {
   console.log(customerId);
   db.query(
     `
