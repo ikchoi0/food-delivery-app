@@ -19,40 +19,48 @@
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
 
     <!-- fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
 
+    <!-- Add Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
     <!-- Custom scripts -->
     <script type="text/javascript" src="/scripts/menus.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/logout.js"></script>
 
     <title>Menu</title>
   </head>
   <body>
     <%- include('partials/_header', { user: user}) %>
     <div class="menu-container">
-      <div class="sidebar">
-        <form class="place_order_form">
-        <div>
-          <label for="customer_name">Name: </label>
-          <input type="text" class="password" name="customer_name" />
+      <div class="sidebar" id="sidebar">
+       <div> <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+          ><i class="fa-solid fa-x x-button"></i></a>
+          <button class="clear-cart">Clear Cart</button>
         </div>
-        <div>
-          <label for="customer_email">Email: </label>
-          <input type="email" class="password" name="customer_email" />
-        </div>
-        <div>
-          <label for="customer_phone_number">Phone number: </label>
-          <input type="text" name="customer_phone_number" class="password"/>
-          <button type="submit" class="submit">Place Order</button>
-        </div>
-        </form>
         <ul class="cart_items"></ul>
-        <span>Total $<span class="cart_total">0</span></span>
+        <span class="total_price"
+          >Total $<span class="cart_total">0</span></span
+        >
+        <form class="place_order_form">
+          <div>
+            <button type="submit" class="submit">Place Order</button>
+          </div>
+        </form>
       </div>
-      <div class="d-flex flex-column">
+      <div class="d-flex flex-column menu_container">
         <% for(let menu of menus) { %>
         <div class="menu_item m-1 d-flex">
           <img
@@ -60,10 +68,14 @@
             src="<%= menu.photo_url %>"
             alt=""
           />
-          <div class="d-flex flex-column">
-            <div style="display: none" class="menu_item_id"><%= menu.id %></div>
-            <div class="menu_item_name"><%= menu.name%></div>
-            <div class="menu_item_description"><%= menu.description%></div>
+          <div class="d-flex flex-column justify-content-between menu_<%= menu.id %>">
+            <div style="display: none" class="menu_item_id <%= menu.id %>">
+              <%= menu.id %>
+            </div>
+            <div class="d-flex flex-column justify-content-start">
+              <div class="menu_item_name pt-2"><%= menu.name%></div>
+              <div class="menu_item_description"><%= menu.description%></div>
+            </div>
             <div class="menu_item_footer d-flex">
               <div class="pt-2">$</div>
               <div class="menu_item_price pt-2"><%= menu.price / 100 %></div>

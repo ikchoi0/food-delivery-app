@@ -1,0 +1,4 @@
+ menu_id | item_name | price | id | order_placed_at | order_started_at | order_completed_at | cnt 
+---------+-----------+-------+----+-----------------+------------------+--------------------+-----
+(0 rows)
+

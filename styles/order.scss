@@ -31,10 +31,22 @@
 .cancel {
   margin: 1em;
   border: 1px solid black;
+  border-radius: 4px;
   background-color: none;
 }
 
 .cancel:hover {
   color: red;
   background-color: #EFEFEF;
+}
+.cart {
+  color:white;
+  float: right;
+  font-size: 1.5em;
+  padding-right: 0.5em;
+  text-align: center;
+}
+
+.cart:hover {
+  color: cornflowerblue;
 }

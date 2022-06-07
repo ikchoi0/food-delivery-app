@@ -5,9 +5,11 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
+const { sendSMS } = require("../public/scripts/twilio");
 const express = require("express");
 const router = express.Router();
 const { authenticateUser } = require("../lib/auth-helper");
+
 module.exports = (db) => {
   router.get("/", authenticateUser, (req, res) => {
     db.query(`SELECT * FROM menus;`)
@@ -22,30 +24,9 @@ module.exports = (db) => {
 
   router.post("/", authenticateUser, (req, res) => {
     const orderData = req.body;
-    const customerName = orderData.customer_name;
-    const customerEmail = orderData.customer_email;
-    const customerPhoneNumber = orderData.customer_phone_number;
-    ["customer_name", "customer_email", "customer_phone_number"].forEach(
-      (key) => delete orderData[key]
-    );
-    db.query(`SELECT id FROM customers WHERE email = $1;`, [
-      customerEmail,
-    ]).then((data) => {
-      if (data.rows.length) {
-        addOrderHelper(orderData, data, db);
-      } else {
-        db.query(
-          `
-            INSERT INTO customers (name, email, phone_number)
-            VALUES ($1, $2, $3)
-            RETURNING id;
-          `,
-          [customerName, customerEmail, customerPhoneNumber]
-        ).then((data) => {
-          addOrderHelper(orderData, data, db);
-        });
-      }
-    });
+    const id = req.session.id;
+    addOrderHelper(orderData, id, db);
+
     // TO FIX: redirect after data is added in the for loop
     setTimeout(() => {
       res.send({ message: "success" });
@@ -53,38 +34,47 @@ module.exports = (db) => {
   });
 
   router.get("/order", authenticateUser, (req, res) => {
-    db.query(
-      `
-      SELECT menu_id, menus.name as item_name, to_char(menus.price/100, 'FM99.00') as price, orders.id, order_placed_at, order_started_at, order_completed_at,
-      customers.name as customer_name, customers.phone_number as phone_number, customers.email as email, count(*) as cnt
-      FROM items_ordered
-      JOIN orders ON orders.id = order_id
-      JOIN customers ON customer_id = customers.id
-      JOIN menus ON menu_id = menus.id
-      WHERE order_id = (SELECT id FROM orders ORDER BY order_placed_at DESC LIMIT 1)
-      GROUP BY menu_id, menus.name, menus.price, orders.id, order_placed_at, order_started_at, order_completed_at,
-      customers.name, customers.phone_number, customers.email;
-      `
-    ).then((data) => {
+    const queryString = `
+    SELECT menu_id, menus.name as item_name, to_char(menus.price/100, 'FM99.00') as price, orders.id, order_placed_at, order_started_at, order_completed_at,
+    customers.name as customer_name, customers.phone_number as phone_number, customers.email as email, count(*) as cnt
+    FROM items_ordered
+    JOIN orders ON orders.id = order_id
+    JOIN customers ON customer_id = customers.id
+    JOIN menus ON menu_id = menus.id
+    WHERE order_id = (SELECT id FROM orders ORDER BY order_placed_at DESC LIMIT 1) AND customer_id = $1
+    GROUP BY menu_id, menus.name, menus.price, orders.id, order_placed_at, order_started_at, order_completed_at,
+    customers.name, customers.phone_number, customers.email;
+    `
+    const queryParams = [req.session.id];
+    db.query(queryString, queryParams)
+    .then((data) => {
       const orderDetails = data.rows;
-      console.log(orderDetails);
+      const customerDetails = [req.session.id, req.session.name, req.session.email]
+      console.log('order details', orderDetails, 'customer details', customerDetails);
       res.render("order", { orderDetails: orderDetails , user: req.session });
-      // res.send(data.rows);
     });
   });
 
   router.post("/delete", authenticateUser, (req, res) => {
-    db.query(
-      `
+    const queryString =      `
     SELECT orders.*, items_ordered.*
     FROM items_ordered
     JOIN orders ON orders.id = order_id
     JOIN customers ON customer_id = customers.id
     JOIN menus ON menu_id = menus.id
-    WHERE order_id in (SELECT id FROM orders WHERE customer_id = (SELECT customer_id FROM orders ORDER BY order_placed_at DESC LIMIT 1));
+    WHERE order_id = (SELECT id FROM orders ORDER BY order_placed_at DESC LIMIT 1) AND customer_id = $1;
     `
-    )
+    const queryParams = [req.session.id]
+    db.query(queryString, queryParams)
       .then((data) => {
+        sendSMS(
+          '6042670097',
+          `❌Order number ${data.rows[0].id} has been cancelled❌`
+        );
+        sendSMS(
+          req.session.phone_number,
+          `❌Order number ${data.rows[0].id} has been cancelled❌`
+        );
         const cancelledOrder = data.rows;
         delete cancelledOrder;
         res.redirect("/api/menu");
@@ -102,8 +92,7 @@ module.exports = (db) => {
 // triggers notification to owner that the order has been placed
 // POST request to cancel form (either redirect or clear same page)
 
-function addOrderHelper(orderData, data, db) {
-  const customerId = Number(data.rows[0].id);
+function addOrderHelper(orderData, customerId, db) {
   console.log(customerId);
   db.query(
     `
@@ -126,6 +115,12 @@ function addOrderHelper(orderData, data, db) {
           );
         }
       }
+
+    sendSMS(
+      '6042670097',
+      `🍕 A new order has been placed. The order number is ${data.rows[0].id}.`
+    );
+
     })
     .catch((error) => {
       console.log(error);
