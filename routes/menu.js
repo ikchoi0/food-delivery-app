@@ -64,22 +64,20 @@ module.exports = (db) => {
   });
 
   router.post("/order/cancel", authenticateUser, (req, res) => {
+    sendSMS(
+      "6042670097",
+      `❌Order number ${req.body.order_id} has been cancelled❌`
+    );
+
     const orderId = req.body.order_id;
     const queryString = `
       DELETE FROM orders
       WHERE id = $1;`;
     const queryParams = [orderId];
+
     db.query(queryString, queryParams)
       .then((data) => {
-        // sendSMS(
-        //   "6042670097",
-        //   `❌Order number ${data.rows[0].id} has been cancelled❌`
-        // );
-        // sendSMS(
-        //   req.session.phone_number,
-        //   `❌Order number ${data.rows[0].id} has been cancelled❌`
-        // );
-        res.send({ messgage: "order cancelled" });
+        res.send({ message: "order cancelled" });
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
