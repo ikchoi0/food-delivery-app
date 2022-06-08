@@ -78,9 +78,9 @@
             Confirmed
           <% } else { %>
             Pending restaurant confirmation
-            <form method="post" action="order/cancel" class="customer_order_cancel_button" id="cancel" onclick="checker()">
+            <form class="customer_order_cancel_button" id="cancel" onclick="clicked(event)">
               <input type="hidden" name="order_id" value="<%= order.order_id %>">
-              <button type="button">Cancel</button>
+              <button type="submit">Cancel</button>
             </form>
           <% } %>
           </span>
