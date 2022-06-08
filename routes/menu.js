@@ -71,14 +71,14 @@ module.exports = (db) => {
     const queryParams = [orderId];
     db.query(queryString, queryParams)
       .then((data) => {
-        sendSMS(
-          "6042670097",
-          `❌Order number ${data.rows[0].id} has been cancelled❌`
-        );
-        sendSMS(
-          req.session.phone_number,
-          `❌Order number ${data.rows[0].id} has been cancelled❌`
-        );
+        // sendSMS(
+        //   "6042670097",
+        //   `❌Order number ${data.rows[0].id} has been cancelled❌`
+        // );
+        // sendSMS(
+        //   req.session.phone_number,
+        //   `❌Order number ${data.rows[0].id} has been cancelled❌`
+        // );
         res.send({ messgage: "order cancelled" });
       })
       .catch((err) => {

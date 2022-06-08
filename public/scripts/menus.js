@@ -25,6 +25,7 @@ $(() => {
       cartItem.find(".cart_item_count").text(count);
       cartItem.find(".cart_item_price").text(count * price);
     }
+    openSidebar($(".sidebar"));
     localStorage.setItem(id, count);
     updateCartIcon(1);
     updateCartTotal(Number(price));
@@ -45,6 +46,7 @@ $(() => {
       updateCartIcon(-1);
     } else if (count === 0) {
       updateCartIcon(-1);
+      closeSidebar($(".sidebar"));
       cart_item.remove();
     } else {
       //error!! items cannot be negative
@@ -78,26 +80,32 @@ $(() => {
     }
   });
 
-  /* Opens and closes the sidebar when the cart icon is clicked */
-  $(".cart-container").on("click", function (e) {
-    e.preventDefault();
-    const sidebar = $(".sidebar");
-    if (sidebar.css("width") === "0px") {
-      sidebar.css("width", "270px");
-      sidebar.css("opacity", "100%");
-    } else {
-      sidebar.css("width", "0px");
-      sidebar.css("opacity", "0%");
-    }
-  });
-
   /* Clears the cart */
   $(".clear-cart").on("click", function (e) {
     localStorage.clear();
     window.location.replace("/api/menu");
   });
+
+    /* Opens and closes the sidebar when the cart icon is clicked */
+    $(".cart-container").on("click", function (e) {
+      e.preventDefault();
+      const sidebar = $(".sidebar");
+      if (sidebar.css("width") === "0px") {
+        openSidebar(sidebar);
+      } else {
+        closeSidebar(sidebar);
+      }
+    });
 });
 
+function openSidebar (sidebar) {
+  sidebar.css("width", "270px");
+  sidebar.css("opacity", "100%");
+}
+function closeSidebar (sidebar) {
+  sidebar.css("width", "0px");
+  sidebar.css("opacity", "0%");
+}
 /* Helper function to update total price in the cart */
 function updateCartTotal(price, total = Number($(".cart_total").text())) {
   const newTotal = total + price;
