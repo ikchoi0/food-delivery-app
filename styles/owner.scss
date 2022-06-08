@@ -1,16 +1,16 @@
+body {
+  background: none;
+}
+
 .view_orders {
   display: flex;
-  padding: 50px;
-}
-
-.owner {
-  background-color: white;
 }
 
 .view_orders {
+  margin: 1em;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   flex-wrap: wrap;
   gap: 30px;
 }
