@@ -27,15 +27,17 @@ module.exports = (db) => {
               req.session.phone_number = savedUserInfo.phone_number;
               req.session.loggedIn = true;
               if (req.session.email === "owner@owner.com") {
-                return res.redirect("/api/owner");
+                // return res.redirect("/api/owner");
+                return res.status(200).json({logged_in_as: "owner",message:"success"})
               }
-              return res.redirect("/api/menu");
+              return res.status(200).json({logged_in_as: "customer", message:"success"})
+              // return res.redirect("/api/menu");
             } else {
-              res.send({ message: "invalid credentials" });
+              return res.status(401).json({logged_in_as: "", message: "wrong password"})
             }
           });
         } else {
-          res.send({ message: "customer not found" });
+          return res.status(401).json({logged_in_as: "", message: "email not found"})
         }
       }
     );
@@ -52,9 +54,10 @@ module.exports = (db) => {
     db.query(`SELECT * FROM customers WHERE email = $1;`, [userEmail]).then(
       (data) => {
         const savedUserInfo = data.rows[0];
+
         // found customer from database, send to login page
         if (savedUserInfo) {
-          return res.redirect("/");
+          return res.status(401).json({logged_in_as: "", message: "email is already registered"})
         }
         bcrypt.hash(userInfo.password, saltRounds, function (err, hash) {
           db.query(
@@ -66,7 +69,6 @@ module.exports = (db) => {
             [userName, userEmail, userPhoneNumber, hash]
           ).then((data) => {
             const savedUserInfo = data.rows[0];
-            console.log(savedUserInfo);
             req.session.id = savedUserInfo.id;
             req.session.email = savedUserInfo.email;
             req.session.name = savedUserInfo.name;
