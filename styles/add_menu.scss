@@ -3,10 +3,59 @@
   padding: 2em;
   border: 1px solid black;
   border-radius: 4px;
-  margin: 10%;
+  margin-left: 30%;
+  margin-right: 30%;
+  margin-top: 10%;
 }
 
 .menu_title {
   font-size: 2em;
   padding: 2em 2em 0em 2em;
+}
+
+.form-group {
+
+  padding-bottom: 1em;
+}
+
+.menu_name{
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black;
+  border-radius: 0px;
+}
+
+.menu_description{
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black;
+  border-radius: 0px;
+}
+
+.menu_photo {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black;
+  border-radius: 0px;
+}
+
+.menu_price {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black;
+  border-radius: 0px;
+  width: 25%;
+}
+
+.menu-label {
+  font-weight: 700;
+}
+
+.form-submit {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.create-btn {
 }
