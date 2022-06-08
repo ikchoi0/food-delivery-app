@@ -5,6 +5,10 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
+require("dotenv").config();
+
+const RESTAURANT_PHONE = process.env.RESTAURANT_PHONE;
+
 const { sendSMS } = require("../public/scripts/twilio");
 const express = require("express");
 const router = express.Router();
@@ -65,7 +69,7 @@ module.exports = (db) => {
 
   router.post("/order/cancel", authenticateUser, (req, res) => {
     sendSMS(
-      "6042670097",
+      RESTAURANT_PHONE,
       `❌Order number ${req.body.order_id} has been cancelled❌`
     );
 
@@ -131,11 +135,14 @@ function addOrderHelper(orderData, customerId, db) {
       }
 
       sendSMS(
-        "6042670097",
+        RESTAURANT_PHONE,
         `🍕 A new order has been placed. The order number is ${data.rows[0].id}.`
       );
+
     })
     .catch((error) => {
       console.log(error);
     });
 }
+
+

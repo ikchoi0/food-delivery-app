@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/main.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/menu.css" type="text/css" />
+
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Add Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Custom scripts -->
+    <script type="text/javascript" src="/scripts/owner_menu.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/logout.js"></script>
+
+    <title>Menu</title>
+  </head>
+  <body>
+    <%- include('partials/_header', { user: user}) %>
+    <div class="menu-container">
+      <div class="sidebar">
+        <form class="owner_menu_edit_form">
+
+        </form>
+      </div>
+      <div class="d-flex flex-wrap menu_container">
+        <% for(let menu of menus) { %>
+        <div class="menu_item m-1 d-flex owner_menu_edit">
+          <img
+            class="menu_item_photo mr-2"
+            src="<%= menu.photo_url %>"
+            alt=""/>
+          <div class="d-flex flex-column justify-content-between menu_<%= menu.id %>">
+            <div style="display: none" class="menu_item_id <%= menu.id %>">
+              <%= menu.id %>
+            </div>
+            <div class="d-flex flex-column justify-content-start">
+              <div class="menu_item_url" style="display: none;"><%= menu.photo_url %></div>
+              <div class="menu_item_name pt-2"><%= menu.name%></div>
+              <div class="menu_item_description"><%= menu.description%></div>
+            </div>
+            <div class="menu_item_footer d-flex">
+              <div class="pt-2">$</div>
+              <div class="menu_item_price pt-2"><%= menu.price / 100 %></div>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </body>
+</html>

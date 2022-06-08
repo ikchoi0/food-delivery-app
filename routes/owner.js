@@ -12,6 +12,56 @@ const { authenticateUser, authenticateOwner } = require("../lib/auth-helper");
 
 module.exports = (db) => {
   router.get(
+    "/menu",
+    authenticateUser,
+    authenticateOwner,
+    (req, res) => {
+      db.query(`SELECT * FROM menus ORDER BY id;`)
+      .then((data) => {
+        const menus = data.rows;
+        res.render("owner_menu", { menus: menus, user: req.session });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+    }
+  );
+
+  router.post("/menu/edit", (req, res) => {
+    const {
+      menu_id,
+      edit_menu_name,
+      edit_menu_photo_url,
+      edit_menu_description,
+      edit_menu_price,
+    } = req.body;
+    if (edit_menu_price === NaN) {
+      return res.redirect("api/owner/menu/create");
+    } else {
+      console.log(edit_menu_description);
+      db.query(
+        `
+          UPDATE menus
+          SET name = $1, photo_url = $2, description = $3, price = $4
+          WHERE id = $5
+        `,
+        [
+          edit_menu_name,
+          edit_menu_photo_url,
+          edit_menu_description,
+          Number(edit_menu_price * 100),
+          menu_id
+        ]
+      )
+        .then(() => {
+          return res.status(200).json({message:"success"})
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  });
+  router.get(
     "/menu/create",
     authenticateUser,
     authenticateOwner,
@@ -19,6 +69,7 @@ module.exports = (db) => {
       res.render("add_menu", { user: req.session });
     }
   );
+
   router.post("/menu", (req, res) => {
     const {
       create_menu_name,
@@ -26,24 +77,28 @@ module.exports = (db) => {
       create_menu_description,
       create_menu_price,
     } = req.body;
-    db.query(
-      `
-        INSERT INTO menus (name, photo_url, description, price)
-        VALUES ($1, $2, $3, $4);
-      `,
-      [
-        create_menu_name,
-        create_menu_photo_url,
-        create_menu_description,
-        Number(create_menu_price),
-      ]
-    )
-      .then(() => {
-        res.redirect("/api/owner");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (create_menu_price === NaN) {
+      return res.redirect("api/owner/menu/create");
+    } else {
+      db.query(
+        `
+          INSERT INTO menus (name, photo_url, description, price)
+          VALUES ($1, $2, $3, $4);
+        `,
+        [
+          create_menu_name,
+          create_menu_photo_url,
+          create_menu_description,
+          Number(create_menu_price * 100),
+        ]
+      )
+        .then(() => {
+          res.redirect("/api/owner");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   });
 
   router.get("/", authenticateUser, authenticateOwner, (req, res) => {
