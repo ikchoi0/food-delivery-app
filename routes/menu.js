@@ -30,7 +30,7 @@ module.exports = (db) => {
     // TO FIX: redirect after data is added in the for loop
     setTimeout(() => {
       res.send({ message: "success" });
-    }, 1000);
+    }, 200);
   });
 
   router.get("/order", authenticateUser, (req, res) => {
@@ -108,7 +108,6 @@ module.exports = (db) => {
 // POST request to submit form with all added menu items and name/email/phone
 // triggers notification to owner that the order has been placed
 // POST request to cancel form (either redirect or clear same page)
-
 function addOrderHelper(orderData, customerId, db) {
   console.log(customerId);
   db.query(

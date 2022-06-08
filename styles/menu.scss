@@ -1,5 +1,9 @@
+body {
+  background: none;
+}
 .menu-container {
-  background-color: white;
+  background-color: none;
+  margin-right: 260px;
 }
 
 .menu_item {
@@ -58,9 +62,6 @@
   padding-left: 1em;
 }
 
-.place_order_form {
-  padding-top: 2em;
-}
 
 .flex-column {
   padding: 0 1em 0 0;
@@ -72,6 +73,7 @@
 
 .menu_item {
   width: 600px;
+  min-width: 600px;
 }
 
 .menu_item:hover {
@@ -88,4 +90,8 @@
 
 .clear-cart:hover {
   color: red;
+}
+
+.cart_button_container {
+  display: flex;
 }
