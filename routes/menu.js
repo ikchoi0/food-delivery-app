@@ -30,7 +30,7 @@ module.exports = (db) => {
     // TO FIX: redirect after data is added in the for loop
     setTimeout(() => {
       res.send({ message: "success" });
-    }, 1000);
+    }, 200);
   });
 
   router.get("/order", authenticateUser, (req, res) => {
@@ -64,22 +64,20 @@ module.exports = (db) => {
   });
 
   router.post("/order/cancel", authenticateUser, (req, res) => {
+    sendSMS(
+      "6042670097",
+      `❌Order number ${req.body.order_id} has been cancelled❌`
+    );
+
     const orderId = req.body.order_id;
     const queryString = `
       DELETE FROM orders
       WHERE id = $1;`;
     const queryParams = [orderId];
+
     db.query(queryString, queryParams)
       .then((data) => {
-        // sendSMS(
-        //   "6042670097",
-        //   `❌Order number ${data.rows[0].id} has been cancelled❌`
-        // );
-        // sendSMS(
-        //   req.session.phone_number,
-        //   `❌Order number ${data.rows[0].id} has been cancelled❌`
-        // );
-        res.send({ messgage: "order cancelled" });
+        res.send({ message: "order cancelled" });
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
@@ -108,7 +106,6 @@ module.exports = (db) => {
 // POST request to submit form with all added menu items and name/email/phone
 // triggers notification to owner that the order has been placed
 // POST request to cancel form (either redirect or clear same page)
-
 function addOrderHelper(orderData, customerId, db) {
   console.log(customerId);
   db.query(

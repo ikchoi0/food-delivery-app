@@ -26,13 +26,13 @@
 
 <body>
   <%- include('partials/_header', { user: user }) %>
-    <section class="view_orders owner">
+    <section class="view_orders">
       <% for (let order of orders) { %>
         <% if (!order.order_completed_at) { %>
           <div class="each_order">
             <div class="order-<%= order.order_id %>">
               <div class="id_name">
-                <%= order.order_id %>
+                Order #<%= order.order_id %> for
                   <%= order.name %>
               </div>
               <div class="middle_part">
@@ -48,7 +48,7 @@
                           <% } %>
                       </ul>
                       <div class="total_part">
-                        <lable>Total Number</lable>
+                        <label>Total Number of Items</label>
                         <div class="total_items">
                           <%= order.total_items %>
                         </div>
