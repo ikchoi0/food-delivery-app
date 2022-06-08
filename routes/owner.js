@@ -100,7 +100,7 @@ module.exports = (db) => {
 
     db.query(
       `
-        SELECT orders.id AS order_id, customers.name,  ARRAY_AGG(menus.name) AS menu_name, COUNT(menus.*) AS total_items, orders.order_placed_at AS placed_time, order_started_at, order_completed_at
+        SELECT orders.id AS order_id, customers.name, ARRAY_AGG(menus.name) AS menu_name, COUNT(menus.*) AS total_items, orders.order_placed_at AS placed_time, order_started_at, order_completed_at
         FROM orders
         JOIN items_ordered ON orders.id = items_ordered.order_id
         JOIN menus ON menus.id = items_ordered.menu_id

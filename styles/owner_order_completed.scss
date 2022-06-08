@@ -14,6 +14,7 @@
 
 .each_order:hover {
   box-shadow: 5px 10px;
+  cursor: pointer;
 }
 
 .id_name {
@@ -33,7 +34,7 @@
 .menu_total {
   display: flex;
   padding: 10px;
-  justify-content: center;
+  justify-content: space-around;
   gap: 50px;
 }
 
@@ -47,35 +48,13 @@
   justify-content: center;
 }
 
-.decline_confirm {
-  padding: 12px;
+.delete_form {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-
-.decline_input:hover input {
-  cursor: pointer;
-  color: red;
-}
-
-.confirm_order_form:hover input {
-  cursor: pointer;
-  color: blue;
-}
-
-.started_time {
+  justify-content: center;
   padding: 10px;
 }
 
-.complete_order_form {
-  display: flex;
-  justify-content: center;
-  padding: 5px;
-}
-
-
-.complete_order_form:hover input {
+.delete:hover input {
   cursor: pointer;
-  color: green;
+  color: red;
 }

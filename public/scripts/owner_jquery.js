@@ -1,4 +1,5 @@
 $(() => {
+
   $(".decline").on("submit", function (e) {
     e.preventDefault();
     const data = $(this).serialize();
@@ -30,4 +31,10 @@ $(() => {
       console.log(error);
     });
   });
+
+  $(".delete").on("submit", function (e) {
+    e.preventDefault();
+    $(this).parent().parent().parent().remove();
+  });
+
 });
