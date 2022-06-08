@@ -40,12 +40,13 @@
               <div class="middle_part">
                 <div class="placed_time">
                   <label>Completed at: </label>
+                  &nbsp;
                   <% const event=new Date(order.order_completed_at) %>
                     <%= event.toLocaleString('en-GB', { timeZone: 'UTC' }) %>
                 </div>
                 <div class="menu_total">
                   <div class="menu_part">
-                  <label>Item Name</label>
+                  <label><img src="https://cdn4.iconfinder.com/data/icons/japanese-food-7/64/japan_food-52-512.png" STYLE="height:15px; width: 15px;"> Item Name</label>
                   <ul class="menu_name">
                     <% for (const itemName of order.menu_name) { %>
                       <li>
@@ -55,14 +56,16 @@
                   </ul>
                 </div>
                   <div class="total_part">
-                    <lable>Total Number</lable>
+                    <lable><img src="https://cdn-icons-png.flaticon.com/512/3179/3179238.png" STYLE="height:20px; width: 20px;">Total Number</lable>
                     <div class="total_items">
                       <%= order.total_items %>
                     </div>
                   </div>
                 </div>
               </div>
-                  <img src="https://img.icons8.com/material-rounded/24/undefined/rice-bowl.png" />
+              <div class="icon">
+                <img src="https://img.icons8.com/ios/50/undefined/rice-bowl.png"/>
+                </div>
               </div>
             </div>
           </div>

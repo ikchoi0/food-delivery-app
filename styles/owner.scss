@@ -2,6 +2,16 @@ body {
   background: none;
 }
 
+.order_page_title {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  padding: 20px;
+  font-weight: bold;
+  font-family: 'Kanit', sans-serif;
+  font-size: 45px;
+}
+
 .view_orders {
   margin: 1em;
   display: flex;
@@ -26,6 +36,8 @@ body {
 }
 
 .id_name {
+  font-size: 20px;
+  font-weight: bold;
   display: flex;
   justify-content: space-around;
   border-style: double;
@@ -39,6 +51,7 @@ body {
   border-radius: 5px;
   padding: 10px;
   overflow: auto;
+  font-size: 17px;
 }
 
 .menu_total {
@@ -63,16 +76,17 @@ body {
 }
 
 .decline_confirm {
-  padding: 12px;
   margin-top: 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
 
+.decline_input {
+  height: 35px;
+}
 .decline_input:hover input {
   cursor: pointer;
-  color: red;
 }
 
 .confirm_order_form:hover input {
@@ -81,11 +95,15 @@ body {
 }
 
 .started_time {
+  display: flex;
+  justify-content: center;
   padding: 10px;
+  font-size: 17px;
 }
 
 .complete_order_form {
   display: flex;
+  flex-direction: row;
   justify-content: center;
 }
 
@@ -93,4 +111,8 @@ body {
 .complete_order_form:hover input {
   cursor: pointer;
   color: green;
+}
+
+ul {
+  list-style-type: square;
 }

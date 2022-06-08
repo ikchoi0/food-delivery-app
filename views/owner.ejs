@@ -16,6 +16,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
 
 
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
@@ -26,6 +29,7 @@
 
 <body>
   <%- include('partials/_header', { user: user }) %>
+  <h2 class="order_page_title">Check Your Orders</h2>
     <section class="view_orders">
       <% for (let order of orders) { %>
         <% if (!order.order_completed_at) { %>
@@ -38,11 +42,12 @@
               </div>
               <div class="middle_part">
                 <label>Placed at: </label>
+                &nbsp;
                 <% const event=new Date(order.placed_time) %>
                   <%= event.toLocaleString('en-GB', { timeZone: 'UTC' }) %>
                     <div class="menu_total">
                       <div class="menu_part">
-                        <label>Item Name</label>
+                        <label><img src="https://cdn4.iconfinder.com/data/icons/japanese-food-7/64/japan_food-52-512.png" STYLE="height:15px; width: 15px;"> Item Name</label>
                         <ul>
                           <% for (const name of order.menu_name) { %>
                             <li>
@@ -52,7 +57,7 @@
                         </ul>
                       </div>
                       <div class="total_part">
-                        <label>Total Number</label>
+                        <label><img src="https://cdn-icons-png.flaticon.com/512/3179/3179238.png" STYLE="height:20px; width: 20px;">Total Number</label>
                         <div class="total_items">
                           <%= order.total_items %>
                         </div>
@@ -66,24 +71,27 @@
                       <input name="orderId" type="hidden" class="order_id" value="<%= order.order_id %>">
                       </input>
                       <div class="decline_input">
-                        <input type="submit" value="decline">
+                        <input type="submit" STYLE="background-color: Tomato; color: rgb(251, 238, 238);border-color: tomato; border-radius: 5px;" value="Decline">
+                        <img src="https://img.icons8.com/ios/50/undefined/disclaimer.png"/>
                       </div>
                     </form>
                     <form action="" class="confirm_order_form">
                       <input name="orderId" type="hidden" class="order_id" value="<%= order.order_id %>">
                       </input>
-                      <input type="submit" value="confirm order">
+                      <input type="submit" STYLE="background-color:RoyalBlue; color:rgb(251, 238, 238); border-color: royalblue; border-radius: 5px;" value="Confirm Order">
+                      <img src="https://img.icons8.com/ios/50/undefined/ok-hand--v2.png"/>
                     </form>
                   </div>
                   <% } else { %>
                     <div class="started_time">
                       <label>Started at: </label>
+                      &nbsp;
                       <% const event=new Date(order.order_started_at) %>
                         <%= event.toLocaleString('en-GB', { timeZone: 'UTC' }) %>
                     </div>
                     <form action="" class="complete_order_form">
                       <input name="orderId" type="hidden" class="order_id" value="<%= order.order_id %>">
-                      <input type="submit" value="complete order">
+                      <input type="submit" STYLE="background-color: MediumSeaGreen; border-radius: 5px; border-color: MediumSeaGreen;" value="Complete Order">
                     </form>
                     <% } %>
               </div>

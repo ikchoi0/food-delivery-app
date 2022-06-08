@@ -11,7 +11,7 @@ body {
 }
 
 .each_order {
-  height: 300px;
+  height: 310px;
   width: 400px;
   border-style: solid;
   border-radius: 5px;
@@ -34,6 +34,8 @@ body {
   border-style: double;
   border-radius: 5px;
   padding: 5px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .middle_part {
@@ -42,6 +44,7 @@ body {
   border-radius: 5px;
   padding: 10px;
   overflow: auto;
+  font-size: 17px;
 }
 
 .menu_total {
@@ -65,13 +68,11 @@ body {
   justify-content: center;
 }
 
-.delete_form {
+.icon {
   display: flex;
   justify-content: center;
-  padding: 10px;
 }
 
-.delete:hover input {
-  cursor: pointer;
-  color: red;
+ul {
+  list-style-type: square;
 }
