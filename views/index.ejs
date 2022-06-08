@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+  <script type="text/javascript" src="/scripts/auth.js"></script>
   <script type="text/javascript" src="/scripts/menus.js"></script>
   <script type="text/javascript" src="/scripts/app.js"></script>
   <script type="text/javascript" src="/scripts/owner_jquery.js"></script>
@@ -46,7 +47,8 @@
   <div id="Customer" class="tabcontent default">
     <div class="left-container">
       <div class="login-title">Customer Login</div>
-      <form class="login-form" method="POST" action="/auth/login">
+      <form class="login-form" >
+        <div class="login_error"></div>
         <input value="customer@customer.com" name="email" class="email" type="email" placeholder="email">
         <input name="password" class="password" type="password" placeholder="password">
         <button class="submit" type="submit">Login</button>
@@ -66,7 +68,7 @@
   <div id="Restaurant" class="tabcontent">
     <div class="left-container">
       <div class="login-title">Restaurant Login</div>
-      <form class="login-form" method="POST" action="/auth/login">
+      <form class="login-form">
         <input value="owner@owner.com" name="email" class="email" type="email" placeholder="email">
         <input name="password" class="password" type="password" placeholder="password">
         <button class="submit" type="submit">Login</button>
