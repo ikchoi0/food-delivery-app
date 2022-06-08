@@ -35,49 +35,66 @@ module.exports = (db) => {
 
   router.get("/order", authenticateUser, (req, res) => {
     const queryString = `
-    SELECT menu_id, menus.name as item_name, to_char(menus.price/100, 'FM99.00') as price, orders.id, order_placed_at, order_started_at, order_completed_at,
-    customers.name as customer_name, customers.phone_number as phone_number, customers.email as email, count(*) as cnt
-    FROM items_ordered
-    JOIN orders ON orders.id = order_id
-    JOIN customers ON customer_id = customers.id
-    JOIN menus ON menu_id = menus.id
-    WHERE order_id = (SELECT id FROM orders ORDER BY order_placed_at DESC LIMIT 1) AND customer_id = $1
-    GROUP BY menu_id, menus.name, menus.price, orders.id, order_placed_at, order_started_at, order_completed_at,
-    customers.name, customers.phone_number, customers.email;
-    `
+    SELECT ARRAY_AGG(name) menus, ARRAY_AGG(quantity) as quantities, id as order_id, to_char(sum(price)/100, 'FM9999.00') as total_price, order_placed_at, order_started_at, order_completed_at, customer_name, phone_number, email
+    FROM (
+      SELECT count(menus.name) as quantity, menus.name, SUM(menus.price) as price, orders.id, order_placed_at, order_started_at, order_completed_at,
+      customers.name as customer_name, customers.phone_number as phone_number, customers.email as email
+      FROM items_ordered
+      JOIN orders ON orders.id = order_id
+      JOIN customers ON customer_id = customers.id
+      JOIN menus ON menu_id = menus.id
+      WHERE customer_id = $1
+      GROUP BY  menus.name, menus.price, orders.id, order_placed_at, order_started_at, order_completed_at,
+      customers.name, customers.phone_number, customers.email
+      ) AS orders
+    GROUP BY id, order_placed_at, order_placed_at, order_started_at, order_completed_at, customer_name, phone_number, email
+    ORDER BY order_id DESC;
+    `;
     const queryParams = [req.session.id];
-    db.query(queryString, queryParams)
-    .then((data) => {
+    db.query(queryString, queryParams).then((data) => {
       const orderDetails = data.rows;
-      const customerDetails = [req.session.id, req.session.name, req.session.email]
-      console.log('order details', orderDetails, 'customer details', customerDetails);
-      res.render("order", { orderDetails: orderDetails , user: req.session });
+      console.log("total orders: ", orderDetails.length);
+      const customerDetails = [
+        req.session.id,
+        req.session.name,
+        req.session.email,
+      ];
+      res.render("order", { orderDetails: orderDetails, user: req.session });
     });
   });
 
-  router.post("/delete", authenticateUser, (req, res) => {
-    const queryString =      `
-    SELECT orders.*, items_ordered.*
-    FROM items_ordered
-    JOIN orders ON orders.id = order_id
-    JOIN customers ON customer_id = customers.id
-    JOIN menus ON menu_id = menus.id
-    WHERE order_id = (SELECT id FROM orders ORDER BY order_placed_at DESC LIMIT 1) AND customer_id = $1;
-    `
-    const queryParams = [req.session.id]
+  router.post("/order/cancel", authenticateUser, (req, res) => {
+    const orderId = req.body.order_id;
+    const queryString = `
+      DELETE FROM orders
+      WHERE id = $1;`;
+    const queryParams = [orderId];
     db.query(queryString, queryParams)
       .then((data) => {
         sendSMS(
-          '6042670097',
+          "6042670097",
           `❌Order number ${data.rows[0].id} has been cancelled❌`
         );
         sendSMS(
           req.session.phone_number,
           `❌Order number ${data.rows[0].id} has been cancelled❌`
         );
-        const cancelledOrder = data.rows;
-        delete cancelledOrder;
-        res.redirect("/api/menu");
+        res.send({ messgage: "order cancelled" });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+  });
+
+  router.post("/order", authenticateUser, (req, res) => {
+    const orderId = req.body.order_id;
+    const queryString = `
+      DELETE FROM orders
+      WHERE id = $1;`;
+    const queryParams = [orderId];
+    db.query(queryString, queryParams)
+      .then((data) => {
+        res.send({ messgage: "order history deleted" });
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
@@ -116,11 +133,10 @@ function addOrderHelper(orderData, customerId, db) {
         }
       }
 
-    sendSMS(
-      '6042670097',
-      `🍕 A new order has been placed. The order number is ${data.rows[0].id}.`
-    );
-
+      sendSMS(
+        "6042670097",
+        `🍕 A new order has been placed. The order number is ${data.rows[0].id}.`
+      );
     })
     .catch((error) => {
       console.log(error);
