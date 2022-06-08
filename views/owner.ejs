@@ -32,7 +32,8 @@
           <div class="each_order">
             <div class="order-<%= order.order_id %>">
               <div class="id_name">
-                Order #<%= order.order_id %> for
+                Order #<%= order.order_id %>
+                  &nbsp;
                   <%= order.name %>
               </div>
               <div class="middle_part">
@@ -40,15 +41,18 @@
                 <% const event=new Date(order.placed_time) %>
                   <%= event.toLocaleString('en-GB', { timeZone: 'UTC' }) %>
                     <div class="menu_total">
-                      <ul>
-                        <% for (const name of order.menu_name) { %>
-                          <li>
-                            <%= name %>
-                          </li>
-                          <% } %>
-                      </ul>
+                      <div class="menu_part">
+                        <label>Item Name</label>
+                        <ul>
+                          <% for (const name of order.menu_name) { %>
+                            <li>
+                              <%= name %>
+                            </li>
+                            <% } %>
+                        </ul>
+                      </div>
                       <div class="total_part">
-                        <label>Total Number of Items</label>
+                        <label>Total Number</label>
                         <div class="total_items">
                           <%= order.total_items %>
                         </div>

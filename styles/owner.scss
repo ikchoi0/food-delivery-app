@@ -3,21 +3,20 @@ body {
 }
 
 .view_orders {
-  display: flex;
-}
-
-.view_orders {
   margin: 1em;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   gap: 30px;
 }
 
 .each_order {
+  height: 380px;
+  width: 400px;
   border-style: solid;
   border-radius: 5px;
+  border-width: 3px;
   padding: 10px;
   background-color: white;
 }
@@ -35,16 +34,22 @@ body {
 }
 
 .middle_part {
+  height: 230px;
   border-style: double;
   border-radius: 5px;
   padding: 10px;
+  overflow: auto;
 }
 
 .menu_total {
   display: flex;
-  padding: 10px;
-  justify-content: center;
-  gap: 50px;
+  padding: 5px;
+  justify-content: space-between;
+}
+
+.menu_part {
+  display: flex;
+  flex-direction: column;
 }
 
 .total_part {
@@ -59,6 +64,7 @@ body {
 
 .decline_confirm {
   padding: 12px;
+  margin-top: 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -81,7 +87,6 @@ body {
 .complete_order_form {
   display: flex;
   justify-content: center;
-  padding: 5px;
 }
 
 
@@ -89,5 +94,3 @@ body {
   cursor: pointer;
   color: green;
 }
-
-

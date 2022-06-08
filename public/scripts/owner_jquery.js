@@ -4,7 +4,7 @@ $(() => {
     e.preventDefault();
     const data = $(this).serialize();
     $.post("/api/owner/order/decline", data);
-    $(this).parent().parent().parent().remove();
+    $(this).parent().parent().parent().parent().remove();
   });
 
   $(".confirm_order_form").on("submit", function (e) {
@@ -30,11 +30,6 @@ $(() => {
     .catch(error => {
       console.log(error);
     });
-  });
-
-  $(".delete").on("submit", function (e) {
-    e.preventDefault();
-    $(this).parent().parent().parent().remove();
   });
 
 });

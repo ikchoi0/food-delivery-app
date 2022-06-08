@@ -107,7 +107,8 @@ module.exports = (db) => {
         JOIN items_ordered ON orders.id = items_ordered.order_id
         JOIN menus ON menus.id = items_ordered.menu_id
         JOIN customers ON customers.id = orders.customer_id
-        GROUP BY orders.id, customers.name;
+        GROUP BY orders.id, customers.name
+        ORDER BY orders.id DESC;
       `
     )
     .then((data) => {

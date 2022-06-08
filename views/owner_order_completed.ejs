@@ -38,6 +38,8 @@
                     <%= event.toLocaleString('en-GB', { timeZone: 'UTC' }) %>
                 </div>
                 <div class="menu_total">
+                  <div class="menu_part">
+                  <label>Item Name</label>
                   <ul class="menu_name">
                     <% for (const itemName of order.menu_name) { %>
                       <li>
@@ -45,6 +47,7 @@
                       </li>
                       <% } %>
                   </ul>
+                </div>
                   <div class="total_part">
                     <lable>Total Number</lable>
                     <div class="total_items">
@@ -53,12 +56,7 @@
                   </div>
                 </div>
               </div>
-              <div class="delete_form">
-                <form class="delete">
-                  <input type="submit" value="Delete">
-                  &nbsp
                   <img src="https://img.icons8.com/material-rounded/24/undefined/rice-bowl.png" />
-                </form>
               </div>
             </div>
           </div>

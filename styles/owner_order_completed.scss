@@ -11,10 +11,16 @@ body {
 }
 
 .each_order {
-  background-color: white;
+  height: 300px;
+  width: 400px;
   border-style: solid;
   border-radius: 5px;
+  border-width: 3px;
   padding: 10px;
+  background-color: white;
+  background-image: url(https://thumbs.dreamstime.com/b/completed-sign-sticker-stamp-vector-texture-171675116.jpg);
+  background-size: cover;
+
 }
 
 .each_order:hover {
@@ -31,16 +37,22 @@ body {
 }
 
 .middle_part {
+  height: 200px;
   border-style: double;
   border-radius: 5px;
   padding: 10px;
+  overflow: auto;
 }
 
 .menu_total {
   display: flex;
-  padding: 10px;
-  justify-content: space-around;
-  gap: 50px;
+  padding: 5px;
+  justify-content: space-between;
+}
+
+.menu_part {
+  display: flex;
+  flex-direction: column;
 }
 
 .total_part {
