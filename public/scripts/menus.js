@@ -1,8 +1,8 @@
 $(() => {
-  // sets the cart to have items previously added after refreshing the page
+  /* Sets cart if any items were added previously */
   setCart();
 
-  // still working on the counters
+  /* Handles click event on '+' button to increase item quantity */
   $(".item_counter .add").on("click", function (e) {
     const counter = $(this).parent().find(".count");
     const foodInfo = $(this).parent().parent().parent().parent();
@@ -11,9 +11,7 @@ $(() => {
     const price = foodInfo.find(".menu_item_price").text();
     let count = Number(counter.text()) + 1;
     const $cartList = $(".sidebar .cart_items");
-
     const cartItem = $(`.cart_item_id.${id}`);
-
     if (!cartItem.length) {
       const nameTag = `
         <li class="cart_item_id ${id}">
@@ -27,12 +25,14 @@ $(() => {
       cartItem.find(".cart_item_count").text(count);
       cartItem.find(".cart_item_price").text(count * price);
     }
+    openSidebar($(".sidebar"));
     localStorage.setItem(id, count);
     updateCartIcon(1);
     updateCartTotal(Number(price));
     counter.text(count);
   });
 
+  /* Handles click event on '-' button to decrease item quantity */
   $(".item_counter .subtract").on("click", function (e) {
     const counter = $(this).parent().find(".count");
     const foodInfo = $(this).parent().parent().parent().parent();
@@ -46,6 +46,7 @@ $(() => {
       updateCartIcon(-1);
     } else if (count === 0) {
       updateCartIcon(-1);
+      closeSidebar($(".sidebar"));
       cart_item.remove();
     } else {
       //error!! items cannot be negative
@@ -57,6 +58,7 @@ $(() => {
     counter.text(count);
   });
 
+  /* Handles order submit event */
   $(".place_order_form").on("submit", function (e) {
     e.preventDefault();
     const userInfo = $(this).serializeArray();
@@ -78,31 +80,37 @@ $(() => {
     }
   });
 
-  $(".cart-container").on("click", function (e) {
-    e.preventDefault();
-    const sidebar = $(".sidebar");
-    if (sidebar.css("width") === "0px") {
-      sidebar.css("width", "270px");
-      sidebar.css("opacity", "100%");
-    } else {
-      sidebar.css("width", "0px");
-      sidebar.css("opacity", "0%");
-    }
+  /* Clears the cart */
+  $(".clear-cart").on("click", function (e) {
+    localStorage.clear();
+    window.location.replace("/api/menu");
   });
 
-  // click action for clear cart
-$(".clear-cart").on("click", function (e) {
-  console.log('hi');
-  localStorage.clear();
-  window.location.replace("/api/menu");
-});
+    /* Opens and closes the sidebar when the cart icon is clicked */
+    $(".cart-container").on("click", function (e) {
+      e.preventDefault();
+      const sidebar = $(".sidebar");
+      if (sidebar.css("width") === "0px") {
+        openSidebar(sidebar);
+      } else {
+        closeSidebar(sidebar);
+      }
+    });
 });
 
+function openSidebar (sidebar) {
+  sidebar.css("width", "270px");
+  sidebar.css("opacity", "100%");
+}
+function closeSidebar (sidebar) {
+  sidebar.css("width", "0px");
+  sidebar.css("opacity", "0%");
+}
+/* Helper function to update total price in the cart */
 function updateCartTotal(price, total = Number($(".cart_total").text())) {
   const newTotal = total + price;
   $(".cart_total").text(newTotal.toFixed(2));
 }
-
 
 /* Set the width of the side navigation to 0 */
 function closeNav() {
@@ -110,7 +118,7 @@ function closeNav() {
 }
 
 /* Set the cart after refresh */
-function setCart () {
+function setCart() {
   let totalCartPrice = 0;
   let totalCount = 0;
   for (let key of Object.keys(localStorage)) {
@@ -126,7 +134,9 @@ function setCart () {
       <li class="cart_item_id ${key}">
         <span></span><span class="cart_item_name">${name}</span>
         <span>x </span><span class="cart_item_count">${quantity}</span>
-        <span>- $</span><span class="cart_item_price">${totalPrice.toFixed(2)}</span>
+        <span>- $</span><span class="cart_item_price">${totalPrice.toFixed(
+          2
+        )}</span>
       </li>
     `;
       $(nameTag).appendTo($cartList);
@@ -138,13 +148,14 @@ function setCart () {
   updateCartTotal(totalCartPrice, 0);
 }
 
-function updateCartIcon (quantity) {
+/* Sets the color and sub int value of the cart icon */
+function updateCartIcon(quantity) {
   const itemsInCart = $(".items_in_cart");
   let itemsInCartCount = Number(itemsInCart.text());
   if (!itemsInCartCount) {
     itemsInCartCount = 0;
   }
-  const totalQuantity =  itemsInCartCount + quantity;
+  const totalQuantity = itemsInCartCount + quantity;
   let color = "white";
   if (totalQuantity > 0) {
     color = "red";
@@ -152,5 +163,3 @@ function updateCartIcon (quantity) {
   itemsInCart.css("color", color);
   itemsInCart.text(totalQuantity);
 }
-
-

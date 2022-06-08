@@ -22,6 +22,7 @@ const sendSMS = function(phone, message,
     .then(message => console.log(message.sid));
 };
 
+
 module.exports = { sendSMS };
 
 

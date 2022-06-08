@@ -5,6 +5,7 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
+const { sendSMS } = require("../public/scripts/twilio");
 const express = require("express");
 const router = express.Router();
 const { authenticateUser, authenticateOwner } = require("../lib/auth-helper");
@@ -131,8 +132,10 @@ module.exports = (db) => {
         `, [orderId]
       )
       .then((data) => {
+        orderCompleteSMS(data.rows[0].id, db);
         res.send(data.rows);
-      });
+      })
+
     }
   );
   return router;
@@ -141,3 +144,23 @@ module.exports = (db) => {
 // GET request when order is created that triggers an SMS notification
 // POST request for the owner to update the order time via SMS or webpage
 // triggers a notification to customer on when order is ready
+
+
+// helper function to send sms to customer
+function orderCompleteSMS(order_id, db) {
+  db.query(
+    `SELECT phone_number, orders.id
+    FROM customers JOIN orders ON customers.id = customer_id
+    WHERE orders.id = $1;`, [order_id])
+    .then((data) => {
+      const phone_number = data.rows[0].phone_number
+    sendSMS(
+      phone_number,
+      `🍕 Order #${data.rows[0].id} is ready for pickup.`
+    );
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}

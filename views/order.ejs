@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="/styles/order.css" type="text/css" />
 
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+  <script type="text/javascript" src="/scripts/orders.js"></script>
   <script type="text/javascript" src="/scripts/app.js"></script>
   <title>Order Summary</title>
 
@@ -25,76 +26,68 @@
 
 <body>
   <%- include('partials/_header', { user: user}) %>
-  <div class="order-container">
-    <div class="order-summary">
-      Order Summary
-    </div>
-
-    <div class="order-detail">
-      <span><span class="order-label">Order Number: </span><%= orderDetails[0].id %></span>
-    </div>
-
-    <div class="order-detail">
-      <span><span class="order-label">Name: </span><%= orderDetails[0].customer_name%></span>
-    </div>
-
-    <div class="order-detail">
-      <span><span class="order-label">Phone Number: </span><%= orderDetails[0].phone_number%></span>
-    </div>
-
-    <div class="order-detail">
-      <span><span class="order-label">Email: </span><%= orderDetails[0].email%></span>
-    </div>
-
-    <div class="order-detail">
-      <span><span class="order-label">Order Placed At: </span>
-      <% const event = new Date(orderDetails[0].order_placed_at); %>
-
-      <%= event.toLocaleString('en-GB', { timeZone: 'UTC' })
-
-      %></span>
-    </div>
-
-    <div class="order-detail">
-      <span><span class="order-label">Items Ordered: </span>
-
-      <% if (orderDetails.length === 1) {%>
-        <%= orderDetails[0].item_name %> x <%= orderDetails[0].cnt %> $<%= orderDetails[0].price%>
-        <% } else {%>
-      <% for (let i=0; i<orderDetails.length; i++) { %>
-        <% if (i < orderDetails.length - 1) { %>
-          <%= orderDetails[i].item_name %> x <%= orderDetails[i].cnt %> $<%= orderDetails[i].price%>
-          <%- ", &nbsp;"%>
-          <% } else if (i === orderDetails.length - 1) {%>
-        <%= orderDetails[i].item_name %> x <%= orderDetails[i].cnt %> $<%= orderDetails[i].price%>
-        <% }}} %>
-      </span>
-    </div>
-
-    <div class="order-detail">
-      <span><span class="order-label">Order Total: </span><% let sum = 0; for (let i=0; i<orderDetails.length; i++) { %>
-        <% let num = Number(orderDetails[i].price); let cnt = Number(orderDetails[i].cnt); sum += num*cnt; %>
-        <% } %>
-        $<%= sum.toFixed(2) %>
-      </span>
-    </div>
-
-    <div class="order-detail">
-      <span><span class="order-label">Order Status: </span><%
-        if (orderDetails[0].order_started_at) { %>
-          Confirmed
-          <% } else if (orderDetails[0].order_completed_at) { %>
-            Ready for pickup
+  <% if (orderDetails.length) {%>
+    <% for(const order of orderDetails) { %>
+      <div class="order-container">
+        <div class="order-summary">
+          Order Summary
+        </div>
+        <div class="order-detail">
+          <span><span class="order-label">Order Number: </span><%= order.order_id %></span>
+        </div>
+        <div class="order-detail">
+          <span><span class="order-label">Name: </span><%= order.customer_name%></span>
+        </div>
+        <div class="order-detail">
+          <span><span class="order-label">Phone Number: </span><%= order.phone_number%></span>
+        </div>
+        <div class="order-detail">
+          <span><span class="order-label">Email: </span><%= orderDetails[0].email%></span>
+        </div>
+        <div class="order-detail">
+          <span><span class="order-label">Order Placed At: </span>
+          <% const event = new Date(order.order_placed_at); %>
+          <%= event.toLocaleString('en-GB', { timeZone: 'UTC' }) %></span>
+        </div>
+        <div class="order-detail">
+          <span>
+            <span class="order-label">Items Ordered: </span>
+            <% for (let i = 0; i < order.menus.length; i++) { %>
+              <% if (i !== 0) { %>
+                ,&nbsp;&nbsp;
+              <% } %>
+              <%= order.menus[i] %>&nbsp;x&nbsp;<%= order.quantities[i] %>
+            <% } %>
+          </span>
+        </div>
+        <div class="order-detail">
+          <span>
+            <span class="order-label">Order Total: </span>
+            $<%= order.total_price %> CAD
+          </span>
+        </div>
+        <div class="order-detail">
+          <span><span class="order-label">Order Status: </span>
+          <% if (order.order_completed_at) { %>
+            <form class="customer_order_delete_history_button">
+              <input type="hidden" name="order_id" value="<%= order.order_id %>">
+              <input type="submit" value="Remove history">
+            </form>
+            Order Completed
+          <% } else if (order.order_started_at) { %>
+            Confirmed
           <% } else { %>
             Pending restaurant confirmation
+            <form class="customer_order_cancel_button">
+              <input type="hidden" name="order_id" value="<%= order.order_id %>">
+              <input type="submit" value="Cancel">
+            </form>
           <% } %>
-      </span>
-    </div>
-
-    <form method="post" action="/api/menu/delete" id="cancel" onclick="checker()">
-      <button type="button" class="cancel">Cancel Order</button>
-    </form>
+          </span>
+        </div>
+      </div>
+    <% } %>
+  <% } %>
   </div>
 </body>
-<script type="text/javascript" src="/scripts/orders.js"></script>
 </html>

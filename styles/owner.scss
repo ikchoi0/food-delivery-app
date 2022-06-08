@@ -1,9 +1,18 @@
 .view_orders {
   display: flex;
   padding: 50px;
+}
+
+.owner {
+  background-color: white;
+}
+
+.view_orders {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   gap: 30px;
-  justify-content: space-around;
 }
 
 .each_order {
