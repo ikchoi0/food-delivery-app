@@ -1,6 +1,3 @@
-INSERT INTO customers (name, email, phone_number, password)
-VALUES ('owner', 'owner@owner.com', '111-222-3333', '$2b$10$Rk1698ZklIz.udiVSN8xROyNixWy5syDuwQdXQsiyihptXAVtClwa'),
-('customer', 'customer@customer.com', '437-217-1111', '$2b$10$Rk1698ZklIz.udiVSN8xROyNixWy5syDuwQdXQsiyihptXAVtClwa');
 
 INSERT INTO menus (name, description, photo_url, price)
 VALUES ('Yakiniku Fire Don', 'grill marinated boneless Angus beef short rib, onion, chili sauce.', 'https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photos/1495c312-237c-43d8-8d74-1ead8de32611-retina-large-jpeg',2389),
@@ -23,32 +20,3 @@ VALUES ('Yakiniku Fire Don', 'grill marinated boneless Angus beef short rib, oni
 ('Sweet Potato Stick', 'recommend order this item dine-in only, because the deep fried stick might become soggy or messy when it arrives to you.', 'https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photos/47e9cb2b-5879-4803-8c09-215a25e704b9-retina-large-jpeg', 659),
 ('cabbage salad', 'with sesame dressing', 'https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photosV2/3b8a61b1-30b3-4712-ab31-173dec6e455e-retina-large.JPG', 355),
 ('hot spring egg', 'poached egg and serve it cold.', 'https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photos/cada94d2-b754-4b24-ac1f-42bb8e945faa-retina-large-jpeg', 249);
-
-INSERT INTO orders (customer_id, order_placed_at, order_started_at, order_completed_at)
-VALUES
-(2, '2022-05-28 17:12:31', '2022-05-28 17:14:31', '2022-05-28 17:50:31'),
-(2, '2022-05-29 17:12:31', '2022-05-29 17:13:31', '2022-05-29 18:12:31'),
-(2, '2022-05-30 14:23:40', '2022-05-30 14:30:40', '2022-05-30 15:23:40'),
-(2, '2022-06-01 18:34:21', '2022-06-01 18:35:21', '2022-06-01 19:30:21'),
-(2, '2022-06-03 20:43:22', '2022-06-03 20:49:22', '2022-06-03 21:20:22'),
-(2, '2022-06-05 20:43:22', '2022-06-05 20:50:22', '2022-06-05 21:50:22');
-
-INSERT INTO items_ordered (order_id, menu_id)
-VALUES
-(1, 1),
-(2, 2),
-(2, 2),
-(2, 2),
-(2, 2),
-(3, 9),
-(3, 10),
-(3, 8),
-(4, 2),
-(4, 2),
-(4, 2),
-(5, 8),
-(5, 2),
-(5, 2),
-(5, 2),
-(5, 8);
-
