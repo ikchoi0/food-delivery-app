@@ -80,14 +80,14 @@
     </div>
 
     <div class="order-detail">
-      <span><span class="order-label">Order Status: </span><%
-        if (orderDetails[0].order_started_at) { %>
-          Confirmed
-          <% } else if (orderDetails[0].order_completed_at) { %>
-            Ready for pickup
-          <% } else { %>
-            Pending restaurant confirmation
-          <% } %>
+      <span><span class="order-label">Order Status: </span>
+      <% if (orderDetails[0].order_completed_at) { %>
+        Ready for pickup
+      <% } else if (orderDetails[0].order_started_at) { %>
+        Confirmed
+      <% } else { %>
+        Pending restaurant confirmation
+      <% } %>
       </span>
     </div>
 
