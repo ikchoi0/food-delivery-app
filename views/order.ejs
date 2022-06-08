@@ -69,11 +69,11 @@
         <div class="order-detail">
           <span><span class="order-label">Order Status: </span>
           <% if (order.order_completed_at) { %>
+            Order Completed
             <form class="customer_order_delete_history_button">
               <input type="hidden" name="order_id" value="<%= order.order_id %>">
               <input type="submit" value="Remove history">
             </form>
-            Order Completed
           <% } else if (order.order_started_at) { %>
             Confirmed
           <% } else { %>
