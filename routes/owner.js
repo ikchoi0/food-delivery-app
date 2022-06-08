@@ -90,6 +90,7 @@ module.exports = (db) => {
         `, [orderId]
       )
       .then((data) => {
+        orderConfirmSMS(data.rows[0].id, db);
         res.send({ data: data.rows[0] });
       });
     }
@@ -157,6 +158,24 @@ function orderCompleteSMS(order_id, db) {
     sendSMS(
       phone_number,
       `🍕 Order #${data.rows[0].id} is ready for pickup.`
+    );
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+function orderConfirmSMS(order_id, db) {
+  db.query(
+    `SELECT phone_number, orders.id
+    FROM customers JOIN orders ON customers.id = customer_id
+    WHERE orders.id = $1;`, [order_id])
+    .then((data) => {
+      const phone_number = data.rows[0].phone_number
+    sendSMS(
+      phone_number,
+      `🍕 Order #${data.rows[0].id} has been confirmed by the restaurant.`
     );
 
     })
