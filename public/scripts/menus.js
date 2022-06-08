@@ -86,23 +86,23 @@ $(() => {
     window.location.replace("/api/menu");
   });
 
-    /* Opens and closes the sidebar when the cart icon is clicked */
-    $(".cart-container").on("click", function (e) {
-      e.preventDefault();
-      const sidebar = $(".sidebar");
-      if (sidebar.css("width") === "0px") {
-        openSidebar(sidebar);
-      } else {
-        closeSidebar(sidebar);
-      }
-    });
+  /* Opens and closes the sidebar when the cart icon is clicked */
+  $(".cart-container").on("click", function (e) {
+    e.preventDefault();
+    const sidebar = $(".sidebar");
+    if (sidebar.css("width") === "0px") {
+      openSidebar(sidebar);
+    } else {
+      closeSidebar(sidebar);
+    }
+  });
 });
 
-function openSidebar (sidebar) {
+function openSidebar(sidebar) {
   sidebar.css("width", "270px");
   sidebar.css("opacity", "100%");
 }
-function closeSidebar (sidebar) {
+function closeSidebar(sidebar) {
   sidebar.css("width", "0px");
   sidebar.css("opacity", "0%");
 }
