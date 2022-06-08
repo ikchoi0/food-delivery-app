@@ -20,7 +20,7 @@
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
 </head>
 <body>
@@ -28,22 +28,24 @@
   <div class="menu_title">Add a new menu item:</div>
   <form class="create_menu" action="/api/owner/menu" method="POST">
     <div class="form-group">
-      <label for="create_menu_name">Item Name</label>
-      <input type="text" class="form-control create_menu_name" name="create_menu_name">
+      <label for="create_menu_name" class="menu-label">Item Name</label>
+      <input type="text" class="form-control create_menu_name menu_name" name="create_menu_name">
     </div>
     <div class="form-group">
-      <label for="create_menu_photo_url">Photo</label>
-      <input placeholder="Please enter an URL for photo" type="text" class="form-control create_menu_photo_url" name="create_menu_photo_url">
+      <label for="create_menu_photo_url" class="menu-label">Photo</label>
+      <input placeholder="Please enter a URL for photo" type="text" class="form-control create_menu_photo_url menu_photo" name="create_menu_photo_url">
     </div>
     <div class="form-group">
-      <label for="create_menu_description">Description</label>
-      <textarea class="form-control create_menu_description" rows="5" name="create_menu_description"></textarea>
+      <label for="create_menu_description" class="menu-label">Description</label>
+      <textarea class="form-control create_menu_description menu_description" name="create_menu_description" rows="5" name="create_menu_description"></textarea>
     </div>
     <div class="form-group">
-      <label for="create_menu_price">Price</label>
-      <input type="text" class="form-control create_menu_price" name="create_menu_price">
+      <label for="create_menu_price" class="menu-label">Price (e.g. 12.50)</label>
+      <div class="form-submit">
+      <input type="text" class="form-control create_menu_price menu_price" name="create_menu_price">
+      <div><button type="submit" class="btn btn-primary create-btn">Create</button></div>
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
+    </div>
   </form>
 </body>
 </html>
