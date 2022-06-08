@@ -4,8 +4,6 @@
 
 require("dotenv").config();
 
-// const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_TOKEN);
-
 
 const sendSMS = function(phone, message,
   TWILIO_PHONE = process.env.TWILIO_PHONE,
