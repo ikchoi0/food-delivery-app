@@ -33,11 +33,11 @@ module.exports = (db) => {
               return res.status(200).json({logged_in_as: "customer", message:"success"})
               // return res.redirect("/api/menu");
             } else {
-              return res.status(401).json({logged_in_as: "", message: "wrong password"})
+              return res.status(401).json({logged_in_as: "", message: "Incorrect password"})
             }
           });
         } else {
-          return res.status(401).json({logged_in_as: "", message: "email not found"})
+          return res.status(401).json({logged_in_as: "", message: "Email not found"})
         }
       }
     );
