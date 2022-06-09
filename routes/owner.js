@@ -56,7 +56,7 @@ module.exports = (db) => {
         });
     }
   });
-  router.get, authenticateUser, authenticateOwner,(
+  router.get(
     "/menu/create",
     authenticateUser,
     authenticateOwner,
