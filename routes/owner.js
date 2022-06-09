@@ -22,7 +22,7 @@ module.exports = (db) => {
       });
   });
 
-  router.post("/menu/edit", (req, res) => {
+  router.post("/menu/edit", authenticateUser, authenticateOwner, (req, res) => {
     const {
       menu_id,
       edit_menu_name,
@@ -56,7 +56,7 @@ module.exports = (db) => {
         });
     }
   });
-  router.get(
+  router.get, authenticateUser, authenticateOwner,(
     "/menu/create",
     authenticateUser,
     authenticateOwner,
@@ -65,7 +65,7 @@ module.exports = (db) => {
     }
   );
 
-  router.post("/menu", (req, res) => {
+  router.post("/menu", authenticateUser, authenticateOwner, (req, res) => {
     const {
       create_menu_name,
       create_menu_photo_url,
