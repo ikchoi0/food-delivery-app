@@ -138,11 +138,8 @@ function addOrderHelper(orderData, customerId, db) {
         RESTAURANT_PHONE,
         `🍕 A new order has been placed. The order number is ${data.rows[0].id}.`
       );
-
     })
     .catch((error) => {
       console.log(error);
     });
 }
-
-

@@ -9,7 +9,10 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const {handleAlreadyLoggedIn, authenticateUser} = require("../lib/auth-helper");
+const {
+  handleAlreadyLoggedIn,
+  authenticateUser,
+} = require("../lib/auth-helper");
 module.exports = (db) => {
   router.post("/login", handleAlreadyLoggedIn, (req, res) => {
     const userInfo = req.body;
@@ -19,31 +22,43 @@ module.exports = (db) => {
         // found customer from database
         if (savedUserInfo) {
           const dbUserPassword = savedUserInfo.password;
-          bcrypt.compare(userInfo.password, dbUserPassword, function (err, result) {
-            if (result) {
-              req.session.id = savedUserInfo.id;
-              req.session.email = savedUserInfo.email;
-              req.session.name = savedUserInfo.name;
-              req.session.phone_number = savedUserInfo.phone_number;
-              req.session.loggedIn = true;
-              if (req.session.email === "owner@owner.com") {
-                // return res.redirect("/api/owner");
-                return res.status(200).json({logged_in_as: "owner",message:"success"})
+          bcrypt.compare(
+            userInfo.password,
+            dbUserPassword,
+            function (err, result) {
+              if (result) {
+                req.session.id = savedUserInfo.id;
+                req.session.email = savedUserInfo.email;
+                req.session.name = savedUserInfo.name;
+                req.session.phone_number = savedUserInfo.phone_number;
+                req.session.loggedIn = true;
+                if (req.session.email === "owner@owner.com") {
+                  // return res.redirect("/api/owner");
+                  return res
+                    .status(200)
+                    .json({ logged_in_as: "owner", message: "success" });
+                }
+                return res
+                  .status(200)
+                  .json({ logged_in_as: "customer", message: "success" });
+                // return res.redirect("/api/menu");
+              } else {
+                return res
+                  .status(401)
+                  .json({ logged_in_as: "", message: "wrong password" });
               }
-              return res.status(200).json({logged_in_as: "customer", message:"success"})
-              // return res.redirect("/api/menu");
-            } else {
-              return res.status(401).json({logged_in_as: "", message: "wrong password"})
             }
-          });
+          );
         } else {
-          return res.status(401).json({logged_in_as: "", message: "email not found"})
+          return res
+            .status(401)
+            .json({ logged_in_as: "", message: "email not found" });
         }
       }
     );
   });
   router.get("/register", handleAlreadyLoggedIn, (req, res) => {
-    res.render("register", {user: req.session});
+    res.render("register", { user: req.session });
   });
   router.post("/register", handleAlreadyLoggedIn, (req, res) => {
     const userInfo = req.body;
@@ -57,7 +72,9 @@ module.exports = (db) => {
 
         // found customer from database, send to login page
         if (savedUserInfo) {
-          return res.status(401).json({logged_in_as: "", message: "email is already registered"})
+          return res
+            .status(401)
+            .json({ logged_in_as: "", message: "email is already registered" });
         }
         bcrypt.hash(userInfo.password, saltRounds, function (err, hash) {
           db.query(
@@ -82,7 +99,7 @@ module.exports = (db) => {
   });
   router.post("/logout", authenticateUser, (req, res) => {
     req.session = null;
-    res.send({"message": "ok"});
+    res.send({ message: "ok" });
   });
   return router;
 };
