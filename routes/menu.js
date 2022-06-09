@@ -116,7 +116,6 @@ module.exports = (db) => {
 
 // function to create a new order and trigger SMS to owner
 function addOrderHelper(orderData, customerId, db) {
-  console.log(customerId);
   db.query(
     `
       INSERT INTO orders (customer_id, order_placed_at)

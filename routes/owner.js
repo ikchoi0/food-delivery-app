@@ -11,6 +11,8 @@ const router = express.Router();
 const { authenticateUser, authenticateOwner } = require("../lib/auth-helper");
 
 module.exports = (db) => {
+
+  // get the menu items in the owner menu page
   router.get("/menu", authenticateUser, authenticateOwner, (req, res) => {
     db.query(`SELECT * FROM menus ORDER BY id;`)
       .then((data) => {
@@ -22,6 +24,8 @@ module.exports = (db) => {
       });
   });
 
+
+//after edit event happens, update the table
   router.post("/menu/edit", authenticateUser, authenticateOwner, (req, res) => {
     const {
       menu_id,
@@ -65,6 +69,7 @@ module.exports = (db) => {
     }
   );
 
+// creating items in the menu sidebar
   router.post("/menu", authenticateUser, authenticateOwner, (req, res) => {
     const {
       create_menu_name,
@@ -96,6 +101,7 @@ module.exports = (db) => {
     }
   });
 
+// get orders that customers make
   router.get("/", authenticateUser, authenticateOwner, (req, res) => {
     const orders = [];
 
@@ -118,6 +124,7 @@ module.exports = (db) => {
       });
   });
 
+// delete data from orders table when decline event happened
   router.post(
     "/order/decline",
     authenticateUser,
@@ -130,6 +137,7 @@ module.exports = (db) => {
     }
   );
 
+  //when an order is confirmed, update started_at time in the table
   router.post(
     "/order/confirm",
     authenticateUser,
@@ -151,6 +159,7 @@ module.exports = (db) => {
     }
   );
 
+// show completed orders
   router.get(
     "/order/complete",
     authenticateUser,
@@ -182,6 +191,7 @@ module.exports = (db) => {
     }
   );
 
+  // update completed time when the completed button submitted
   router.post(
     "/order/complete",
     authenticateUser,

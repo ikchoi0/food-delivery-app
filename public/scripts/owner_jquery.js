@@ -1,5 +1,6 @@
 $(() => {
 
+// remove the order when decline button happened
   $(".decline").on("submit", function (e) {
     e.preventDefault();
     const data = $(this).serialize();
@@ -7,10 +8,10 @@ $(() => {
     $(this).parent().parent().parent().parent().remove();
   });
 
+  // confirm button submission
   $(".confirm_order_form").on("submit", function (e) {
     e.preventDefault();
     const orderId = $(this).serialize();
-    console.log(orderId);
     $.post("/api/owner/order/confirm", orderId)
     .then(response => {
       window.location.replace('http://localhost:8080/api/owner');
@@ -20,6 +21,7 @@ $(() => {
     });
   });
 
+  //complete button submission
   $(".complete_order_form").on("submit", function (e) {
     e.preventDefault();
     const orderId = $(this).serialize();
