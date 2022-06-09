@@ -1,5 +1,20 @@
 body {
   background: none;
+  background-image: url("https://as1.ftcdn.net/v2/jpg/00/40/73/16/1000_F_40731613_p1NmiV7molm905HADFfymfDbZv75blxG.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 110%;
+}
+
+.completed_page_title {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  padding: 20px;
+  font-weight: bold;
+  font-family: 'Kanit', sans-serif;
+  font-size: 45px;
+  color: black;
 }
 
 .view_orders {

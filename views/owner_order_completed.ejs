@@ -10,6 +10,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
 
 
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
@@ -26,6 +29,7 @@
 
 <body>
   <%- include('partials/_header', { user: user }) %>
+  <h2 class="completed_page_title"><img src="https://img.icons8.com/ios/50/undefined/ok--v1.png"/>Your Completed Orders<img src="https://img.icons8.com/ios/50/undefined/ok--v1.png"/></h2>
     <section class="view_orders">
       <% for (let order of orders) { %>
         <% if (order.order_completed_at) { %>

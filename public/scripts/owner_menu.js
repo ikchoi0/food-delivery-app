@@ -17,18 +17,22 @@ $(() => {
         <label for="create_menu_name" class="menu-label">Item Name</label>
         <input type="text" class="form-control create_menu_name menu_name" name="edit_menu_name" value="${menuName}">
       </div>
+      &nbsp;
       <div class="form-group">
         <label for="create_menu_photo_url" class="menu-label">Photo</label>
         <input placeholder="Please enter a URL for photo" type="text" class="form-control create_menu_photo_url menu_photo" name="edit_menu_photo_url" value="${menuUrl}">
       </div>
+      &nbsp;
       <div class="form-group">
         <label for="create_menu_description" class="menu-label">Description</label>
         <textarea class="form-control create_menu_description menu_description"  rows="5" name="edit_menu_description">${menuDescription}</textarea>
+        &nbsp;
       </div>
       <div class="form-group">
         <label for="create_menu_price" class="menu-label">Price (e.g. 12.50)</label>
         <div class="form-submit">
         <input type="text" class="form-control create_menu_price menu_price" name="edit_menu_price" value="${menuPrice}">
+        &nbsp;
         <div><button type="submit" class="btn btn-primary create-btn">Edit</button></div>
       </div>
     `;

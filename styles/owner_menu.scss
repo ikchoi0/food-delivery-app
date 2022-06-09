@@ -1,0 +1,24 @@
+.sidebar {
+  background-color: Wheat;
+}
+
+.owner_menu_edit_form {
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  font-size: 1.25em;
+  color: rgba(0, 0, 0, 0.679);
+  font-weight: bold;
+}
+
+.form-control.create_menu_description.menu_description {
+  resize: none;
+  overflow: auto;
+}
+
+.btn.btn-primary.create-btn {
+  color: black;
+  border-color: SandyBrown;
+  background-color: SandyBrown;
+}

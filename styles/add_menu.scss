@@ -5,12 +5,18 @@
   border-radius: 4px;
   margin-left: 30%;
   margin-right: 30%;
-  margin-top: 10%;
+  margin-top: 7%;
+  margin-bottom: 7%;
+  height: 30em;
+  width: 35em;
+  font-size: 20px;
 }
 
 .menu_title {
-  font-size: 2em;
+  font-size: 45px;
   padding: 2em 2em 0em 2em;
+  font-family: 'Kanit', sans-serif;
+  font-weight: bold;
 }
 
 .form-group {
@@ -23,6 +29,7 @@
   outline: none;
   border-bottom: 1px solid black;
   border-radius: 0px;
+  overflow: auto;
 }
 
 .menu_description{
@@ -40,6 +47,7 @@
   outline: none;
   border-bottom: 1px solid black;
   border-radius: 0px;
+  overflow: auto;
 }
 
 .menu_price {
@@ -48,6 +56,7 @@
   border-bottom: 1px solid black;
   border-radius: 0px;
   width: 25%;
+  overflow: auto;
 }
 
 .menu-label {
