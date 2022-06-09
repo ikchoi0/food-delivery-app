@@ -112,7 +112,8 @@ module.exports = (db) => {
         JOIN items_ordered ON orders.id = items_ordered.order_id
         JOIN menus ON menus.id = items_ordered.menu_id
         JOIN customers ON customers.id = orders.customer_id
-        GROUP BY orders.id, customers.name;
+        GROUP BY orders.id, customers.name
+        ORDER BY orders.id DESC;
       `
     )
       .then((data) => {
@@ -131,6 +132,7 @@ module.exports = (db) => {
     authenticateOwner,
     (req, res) => {
       const { orderId } = req.body;
+      orderDeclineSMS(req.body.orderId, db);
       db.query(`DELETE FROM orders WHERE id = $1;`, [orderId]).then((data) => {
         res.send(data.rows[0]);
       });
@@ -250,6 +252,25 @@ function orderConfirmSMS(order_id, db) {
       sendSMS(
         phone_number,
         `🍕 Order #${data.rows[0].id} has been confirmed by the restaurant.`
+      );
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+function orderDeclineSMS(order_id, db) {
+  db.query(
+    `SELECT phone_number, orders.id
+    FROM customers JOIN orders ON customers.id = customer_id
+    WHERE orders.id = $1;`,
+    [order_id]
+  )
+    .then((data) => {
+      const phone_number = data.rows[0].phone_number;
+      sendSMS(
+        phone_number,
+        `❌Order #${data.rows[0].id} has been declined by the restaurant❌`
       );
     })
     .catch((error) => {
