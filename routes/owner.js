@@ -11,12 +11,8 @@ const router = express.Router();
 const { authenticateUser, authenticateOwner } = require("../lib/auth-helper");
 
 module.exports = (db) => {
-  router.get(
-    "/menu",
-    authenticateUser,
-    authenticateOwner,
-    (req, res) => {
-      db.query(`SELECT * FROM menus ORDER BY id;`)
+  router.get("/menu", authenticateUser, authenticateOwner, (req, res) => {
+    db.query(`SELECT * FROM menus ORDER BY id;`)
       .then((data) => {
         const menus = data.rows;
         res.render("owner_menu", { menus: menus, user: req.session });
@@ -24,8 +20,7 @@ module.exports = (db) => {
       .catch((err) => {
         res.status(500).json({ error: err.message });
       });
-    }
-  );
+  });
 
   router.post("/menu/edit", (req, res) => {
     const {
@@ -50,11 +45,11 @@ module.exports = (db) => {
           edit_menu_photo_url,
           edit_menu_description,
           Number(edit_menu_price * 100),
-          menu_id
+          menu_id,
         ]
       )
         .then(() => {
-          return res.status(200).json({message:"success"})
+          return res.status(200).json({ message: "success" });
         })
         .catch((error) => {
           console.log(error);
@@ -114,21 +109,26 @@ module.exports = (db) => {
         GROUP BY orders.id, customers.name;
       `
     )
-    .then((data) => {
-      orders.push(...data.rows);
-      res.render("owner", { orders: orders, user: req.session });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
+      .then((data) => {
+        orders.push(...data.rows);
+        res.render("owner", { orders: orders, user: req.session });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
   });
 
-  router.post("/order/decline", authenticateUser, authenticateOwner, (req, res) => {
-    const { orderId } = req.body;
-    db.query(`DELETE FROM orders WHERE id = $1;`, [orderId]).then((data) => {
-      res.send(data.rows[0]);
-    });
-  });
+  router.post(
+    "/order/decline",
+    authenticateUser,
+    authenticateOwner,
+    (req, res) => {
+      const { orderId } = req.body;
+      db.query(`DELETE FROM orders WHERE id = $1;`, [orderId]).then((data) => {
+        res.send(data.rows[0]);
+      });
+    }
+  );
 
   router.post(
     "/order/confirm",
@@ -142,21 +142,24 @@ module.exports = (db) => {
           SET order_started_at = NOW()
           WHERE id = $1
           RETURNING *;
-        `, [orderId]
-      )
-      .then((data) => {
+        `,
+        [orderId]
+      ).then((data) => {
         orderConfirmSMS(data.rows[0].id, db);
         res.send({ data: data.rows[0] });
       });
     }
   );
 
-  router.get("/order/complete",  authenticateUser,
-  authenticateOwner, (req, res) => {
-    const orders = [];
+  router.get(
+    "/order/complete",
+    authenticateUser,
+    authenticateOwner,
+    (req, res) => {
+      const orders = [];
 
-    db.query(
-      `
+      db.query(
+        `
         SELECT orders.id AS order_id, customers.name, ARRAY_AGG(menus.name) AS menu_name, COUNT(menus.*) AS total_items, orders.order_placed_at AS placed_time, order_started_at, order_completed_at
         FROM orders
         JOIN items_ordered ON orders.id = items_ordered.order_id
@@ -165,15 +168,19 @@ module.exports = (db) => {
         GROUP BY orders.id, customers.name
         ORDER BY orders.id DESC;
       `
-    )
-    .then((data) => {
-      orders.push(...data.rows);
-      res.render("owner_order_completed", { orders: orders, user: req.session });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
-  });
+      )
+        .then((data) => {
+          orders.push(...data.rows);
+          res.render("owner_order_completed", {
+            orders: orders,
+            user: req.session,
+          });
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err.message });
+        });
+    }
+  );
 
   router.post(
     "/order/complete",
@@ -186,13 +193,12 @@ module.exports = (db) => {
           UPDATE orders
           SET order_completed_at = NOW()
           WHERE id = $1 RETURNING *;
-        `, [orderId]
-      )
-      .then((data) => {
+        `,
+        [orderId]
+      ).then((data) => {
         orderCompleteSMS(data.rows[0].id, db);
         res.send(data.rows);
-      })
-
+      });
     }
   );
   return router;
@@ -202,20 +208,20 @@ module.exports = (db) => {
 // POST request for the owner to update the order time via SMS or webpage
 // triggers a notification to customer on when order is ready
 
-
 // helper function to send sms to customer
 function orderCompleteSMS(order_id, db) {
   db.query(
     `SELECT phone_number, orders.id
     FROM customers JOIN orders ON customers.id = customer_id
-    WHERE orders.id = $1;`, [order_id])
+    WHERE orders.id = $1;`,
+    [order_id]
+  )
     .then((data) => {
-      const phone_number = data.rows[0].phone_number
-    sendSMS(
-      phone_number,
-      `🍕 Order #${data.rows[0].id} is ready for pickup.`
-    );
-
+      const phone_number = data.rows[0].phone_number;
+      sendSMS(
+        phone_number,
+        `🍕 Order #${data.rows[0].id} is ready for pickup.`
+      );
     })
     .catch((error) => {
       console.log(error);
@@ -226,14 +232,15 @@ function orderConfirmSMS(order_id, db) {
   db.query(
     `SELECT phone_number, orders.id
     FROM customers JOIN orders ON customers.id = customer_id
-    WHERE orders.id = $1;`, [order_id])
+    WHERE orders.id = $1;`,
+    [order_id]
+  )
     .then((data) => {
-      const phone_number = data.rows[0].phone_number
-    sendSMS(
-      phone_number,
-      `🍕 Order #${data.rows[0].id} has been confirmed by the restaurant.`
-    );
-
+      const phone_number = data.rows[0].phone_number;
+      sendSMS(
+        phone_number,
+        `🍕 Order #${data.rows[0].id} has been confirmed by the restaurant.`
+      );
     })
     .catch((error) => {
       console.log(error);
