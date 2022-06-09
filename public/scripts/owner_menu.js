@@ -45,6 +45,7 @@ $(() => {
     }
   });
 
+  //edit menu button
   $(".owner_menu_edit_form").on("submit", function(e) {
     e.preventDefault();
     const menuEditedData = $(this).serialize();
@@ -58,10 +59,13 @@ $(() => {
   });
 });
 
+//show the sidebar
 function openSidebar(sidebar) {
   sidebar.css("width", "800px");
   sidebar.css("opacity", "100%");
 }
+
+//make the closebar disappeared
 function closeSidebar(sidebar) {
   sidebar.css("width", "0px");
   sidebar.css("opacity", "0%");
