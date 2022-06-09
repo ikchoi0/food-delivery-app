@@ -3,7 +3,7 @@
   padding: 2em;
   border: 1px solid black;
   border-radius: 4px;
-  margin-left: 30%;
+  margin-left: 27%;
   margin-right: 30%;
   margin-top: 7%;
   margin-bottom: 7%;
@@ -13,10 +13,13 @@
 }
 
 .menu_title {
+  display: flex;
+  justify-content: center;
   font-size: 45px;
   padding: 2em 2em 0em 2em;
   font-family: 'Kanit', sans-serif;
   font-weight: bold;
+  margin-left: 1em;
 }
 
 .form-group {
