@@ -1,4 +1,3 @@
-// Client facing scripts here
 // home page scripts
 
 function openLogin(evt, user) {

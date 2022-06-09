@@ -2,9 +2,10 @@
 // Find your Account SID and Auth Token at twilio.com/console
 // and set the environment variables. See http://twil.io/secure
 
+// require dotenv variables for twilio
 require("dotenv").config();
 
-
+// define function to take in twilio variables and send the SMS
 const sendSMS = function(phone, message,
   TWILIO_PHONE = process.env.TWILIO_PHONE,
   TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID,
@@ -20,20 +21,5 @@ const sendSMS = function(phone, message,
     .then(message => console.log(message.sid));
 };
 
-
+// export function for use in routes
 module.exports = { sendSMS };
-
-
-
-
-
-
-
-
-// client.messages
-//   .create({
-//      body: 'This is a test',
-//      from: '+18647193836',
-//      to: '+16042670097'
-//    })
-//   .then(message => console.log(message.sid));
