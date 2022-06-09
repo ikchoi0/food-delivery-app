@@ -98,14 +98,18 @@ $(() => {
   });
 });
 
+/* manages the sidebar opening size/opacity */
 function openSidebar(sidebar) {
   sidebar.css("width", "270px");
   sidebar.css("opacity", "100%");
 }
+
+/* manages the sidebar closing size/opacity */
 function closeSidebar(sidebar) {
   sidebar.css("width", "0px");
   sidebar.css("opacity", "0%");
 }
+
 /* Helper function to update total price in the cart */
 function updateCartTotal(price, total = Number($(".cart_total").text())) {
   const newTotal = total + price;

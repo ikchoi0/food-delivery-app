@@ -5,16 +5,20 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
+// require dotenv values for twilio
 require("dotenv").config();
-
 const RESTAURANT_PHONE = process.env.RESTAURANT_PHONE;
 
+// require helper functions
 const { sendSMS } = require("../public/scripts/twilio");
-const express = require("express");
-const router = express.Router();
 const { authenticateUser } = require("../lib/auth-helper");
 
+// require express
+const express = require("express");
+const router = express.Router();
+
 module.exports = (db) => {
+  // GET request to load menu page
   router.get("/", authenticateUser, (req, res) => {
     db.query(`SELECT * FROM menus;`)
       .then((data) => {
@@ -26,6 +30,7 @@ module.exports = (db) => {
       });
   });
 
+  // POST request to place an order, using add order helper function
   router.post("/", authenticateUser, (req, res) => {
     const orderData = req.body;
     const id = req.session.id;
@@ -37,6 +42,7 @@ module.exports = (db) => {
     }, 200);
   });
 
+  // GET request to render the order page for customer and display order info
   router.get("/order", authenticateUser, (req, res) => {
     const queryString = `
     SELECT ARRAY_AGG(name) menus, ARRAY_AGG(quantity) as quantities, id as order_id, to_char(sum(price)/100, 'FM9999.00') as total_price, order_placed_at, order_started_at, order_completed_at, customer_name, phone_number, email
@@ -67,6 +73,7 @@ module.exports = (db) => {
     });
   });
 
+  // POST request to cancel an order (deletes order data from db)
   router.post("/order/cancel", authenticateUser, (req, res) => {
     sendSMS(
       RESTAURANT_PHONE,
@@ -88,6 +95,7 @@ module.exports = (db) => {
       });
   });
 
+  // POST request to delete order history (from db)
   router.post("/order", authenticateUser, (req, res) => {
     const orderId = req.body.order_id;
     const queryString = `
@@ -106,10 +114,7 @@ module.exports = (db) => {
   return router;
 };
 
-// GET request to load menu
-// POST request to submit form with all added menu items and name/email/phone
-// triggers notification to owner that the order has been placed
-// POST request to cancel form (either redirect or clear same page)
+// function to create a new order and trigger SMS to owner
 function addOrderHelper(orderData, customerId, db) {
   console.log(customerId);
   db.query(
@@ -138,11 +143,8 @@ function addOrderHelper(orderData, customerId, db) {
         RESTAURANT_PHONE,
         `🍕 A new order has been placed. The order number is ${data.rows[0].id}.`
       );
-
     })
     .catch((error) => {
       console.log(error);
     });
 }
-
-

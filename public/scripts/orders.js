@@ -1,10 +1,12 @@
-function clicked(e)
+// function to handle popup warning when customer cancels an order
+const clicked = (e) =>
 {
     if(!confirm('Are you sure you want to cancel?')) {
         e.preventDefault();
     }
 }
 
+// jquery to handle cart container visibility, cancel and delete history buttons on order page
 $(() => {
   $(".cart-container").css("display", "none");
 
