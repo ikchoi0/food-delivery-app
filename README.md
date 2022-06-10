@@ -1,7 +1,7 @@
 DonDon Restaurant Ordering App
 =========
 
-DonDon is a fictitious restaurant from which you can order food online, to pick up later. Customers can browse the menu and place orders, and the restaurant owner can manage orders and update the menu as desired.
+DonDon is a fictitious restaurant from which customers can order food online, to pick up later. Customers can browse the menu and place orders, and the restaurant owner can manage orders and update the menu as desired.
 
 ## Screenshots
 !["Screenshot of owner portal"](https://github.com/maddyzt/food-delivery-app/blob/master/public/images/ss1.png?raw=true)
